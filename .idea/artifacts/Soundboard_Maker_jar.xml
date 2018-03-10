@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Soundboard_Maker:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Soundboard_Maker_jar</output-path>
+    <root id="archive" name="Soundboard_Maker.jar">
+      <element id="module-output" name="Soundboard_Maker" />
+    </root>
+  </artifact>
+</component>
