@@ -1,12 +1,19 @@
+/**
+ * Starter file for the SoundBoard Maker project.
+ *
+ * created Nov 6, 2018
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Controller_Side extends JPanel implements ActionListener
+
+public class ControllerSide extends JPanel implements ActionListener
 {
-	private Soundboard_Inner sboard_inner;
-	private Soundboard_Side sboard_outer;
-    private Title_Box title_box;
+	private SoundboardInner _sboardInner;
+	private SoundboardSide _sboardSide;
+    private TitleBox titleBox;
 
     /* Import the pics for the control buttons */
     private ImageIcon project_ctrl_label;
@@ -31,10 +38,10 @@ public class Controller_Side extends JPanel implements ActionListener
     /* To arrange the buttons and labels on the control side */
     private GridBagConstraints c;
 
-	public Controller_Side( Soundboard_Side sboard_outer, Soundboard_Inner sboard_inner )
+	ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner)
 	{
-        this.sboard_outer = sboard_outer;
-        this.sboard_inner = sboard_inner;
+        this._sboardSide = sboardOuter;
+        this._sboardInner = sboardInner;
 
         super.setLayout(new GridBagLayout());
         super.setBackground(Color.WHITE);
@@ -48,25 +55,38 @@ public class Controller_Side extends JPanel implements ActionListener
         Init_Title_Box();
 	}
 
-/************************** Interface Methods ****************************************/
-	@Override
-	public void actionPerformed( ActionEvent e )
-	{
-        if( e.getSource() == sort )
-            sboard_inner.Sort();
-		else if( e.getSource() == new_sound )
-            sboard_inner.New_Sound();
-		else if( e.getSource() == save_project )
-            sboard_inner.Save_Project();
-		else if( e.getSource() == load_project )
-            sboard_inner.Load_Project();
-        else if( e.getSource() == new_project )
-            sboard_inner.New_Project();
-		else if( e.getSource() == rename_project )
-            sboard_inner.Rename_Project();
 
-        if( e.getSource() == load_project || e.getSource() == new_project || e.getSource() == rename_project )
-            sboard_outer.Set_Title();
+    // ********************************************************************************************************** //
+    //                                      Interface Methods
+    // ********************************************************************************************************** //
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+	    var src = e.getSource();
+
+        if(src == sort) {
+            this._sboardInner.Sort();
+        }
+		else if(src == new_sound) {
+            this._sboardInner.New_Sound();
+        }
+		else if(src == save_project) {
+            this._sboardInner.Save_Project();
+        }
+		else if(e.getSource() == load_project) {
+            this._sboardInner.Load_Project();
+        }
+        else if(e.getSource() == new_project) {
+            this._sboardInner.New_Project();
+        }
+		else if(e.getSource() == rename_project) {
+            this._sboardInner.Rename_Project();
+        }
+
+        if(e.getSource() == load_project || e.getSource() == new_project || e.getSource() == rename_project) {
+            this._sboardSide.SetTitle();
+        }
 	}
 
 /**************************** Private Helper Methods **********************************/
@@ -78,7 +98,7 @@ public class Controller_Side extends JPanel implements ActionListener
         new_sound.addActionListener( this );
         rename_project.addActionListener( this );
         save_project.addActionListener( this );
-        this.sort.addActionListener( this ); //added this because intellij was saying method contained dup code
+        this.sort.addActionListener( this ); // added this because intellij was saying method contained dup code
     }
 
     private void Init_Images()

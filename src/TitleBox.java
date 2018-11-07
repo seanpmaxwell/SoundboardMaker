@@ -2,13 +2,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Title_Box extends JPanel implements ActionListener
+public class TitleBox extends JPanel implements ActionListener
 {
     private ImageIcon title_icon;
     private JButton title_button;
     private JOptionPane info_box;
 
-    public Title_Box()
+    TitleBox()
     {
         title_icon = new ImageIcon( this.getClass().getResource("title.png") );
         title_button = new JButton( title_icon );
