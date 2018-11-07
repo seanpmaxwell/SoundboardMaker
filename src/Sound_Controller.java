@@ -1,3 +1,10 @@
+/**
+ *
+ *
+ * created Nov 6, 2018
+ */
+
+
 import java.awt.*;
 import java.awt.dnd.*;
 import java.awt.event.*;
@@ -50,6 +57,9 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
         super.setBackground(Color.WHITE);
 		this.sboard_inner = sboard_inner;
         directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
+
+        var horse = "horse";
+        System.out.println(horse);
 
         Init_Sound_Ctrl_Images();
 		Init_Sound_Ctrl_Buttons();
@@ -109,7 +119,7 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
         pause_sound.addActionListener( this );
         stop_sound.addActionListener( this );
         record_sound.addActionListener( this );
-        this.current_sound.addActionListener( this ); //added this because intellij was saying method contained dup code
+        this.current_sound.addActionListener( this ); // added this because intellij was saying method contained dup code
     }
 
     private void Init_Sound_Controller()
@@ -171,8 +181,7 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
 
     private void Load_Sound_File()
     {
-        try
-        {
+        try {
             fis = new FileInputStream( wave_file );
             bis = new BufferedInputStream( fis );
             audio_input_stream = AudioSystem.getAudioInputStream( bis );
@@ -185,8 +194,7 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
             bis.close();
             audio_input_stream.close();
         }
-        catch( IOException | UnsupportedAudioFileException | LineUnavailableException ex )
-        {
+        catch( IOException | UnsupportedAudioFileException | LineUnavailableException ex ) {
             System.out.println( "File error:" + ex.getMessage() );
         }
     }

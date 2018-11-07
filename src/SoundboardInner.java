@@ -1,3 +1,9 @@
+/**
+ * Starter file for the SoundBoard Maker project.
+ *
+ * created Nov 6, 2018
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -6,9 +12,10 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class Soundboard_Inner extends JPanel implements ActionListener, LineListener
+
+public class SoundboardInner extends JPanel implements ActionListener, LineListener
 {
-    /* Misc */
+    // Misc
 	private JPopupMenu popup;
 	private JMenuItem delete_sound;
 	private JMenuItem rename_sound;
@@ -19,12 +26,12 @@ public class Soundboard_Inner extends JPanel implements ActionListener, LineList
     private String project_title;
     private String label;
 
-    /* Playing Sound */
+    // Playing Sound
 	private Sound_Button current_sound;
     private Clip audio_clip;
 
     	
-	Soundboard_Inner() throws LineUnavailableException
+	SoundboardInner() throws LineUnavailableException
 	{
 		all_sound_buttons = new ArrayList<>();
         directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
@@ -36,7 +43,10 @@ public class Soundboard_Inner extends JPanel implements ActionListener, LineList
         Set_Key_Bindings();
 	}
 
-/********************************** Public Methods *********************************************/
+    // ********************************************************************************************************** //
+    //
+    // ********************************************************************************************************** //
+
     public void Create_Sound_Button()
     {
         current_sound = new Sound_Button( label );

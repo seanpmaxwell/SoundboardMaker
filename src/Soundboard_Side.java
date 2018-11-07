@@ -6,7 +6,7 @@ public class Soundboard_Side extends JPanel
 	private JLabel title;
 	private String title_portion;
 	private JScrollPane scroller;
-	private Soundboard_Inner sboard_inner;
+	private SoundboardInner sboard_inner;
 	
 	public Soundboard_Side( Soundboard_Inner sboard_inner )
     {
@@ -15,8 +15,8 @@ public class Soundboard_Side extends JPanel
         title_portion = "Press 'Enter' to stop sound      PROJECT_NAME: ";
         title = new JLabel( title_portion + "New Project" );
         title.setHorizontalAlignment( JLabel.CENTER );
-        scroller = new JScrollPane( sboard_inner, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scroller = new JScrollPane(sboard_inner, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		super.setBackground( Color.white );
 		super.setLayout( new BorderLayout() );
