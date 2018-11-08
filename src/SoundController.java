@@ -15,15 +15,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener
 {
-	private JButton load_sound;
-	private JButton play_sound;
-	private JButton pause_sound;
-	private JButton stop_sound;
-	private JButton record_sound;
-	private JButton current_sound;
+	private JButton _loadSoundBtn;
+	private JButton _playSoundBtn;
+	private JButton _pauseSoundBtn;
+	private JButton _stopSoundBtn;
+	private JButton _recordSoundBtn;
+	private JButton _currentSoundBtn;
 
-    private ImageIcon load_icon;
-    private ImageIcon play_icon;
+    private ImageIcon _loadIcon;
+    private ImageIcon _playIcon;
     private ImageIcon pause_icon;
     private ImageIcon stop_icon;
     private ImageIcon record_icon;
@@ -53,7 +53,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         super.setBackground(Color.WHITE);
 		this.sboard_inner = sboard_inner;
 
-        directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
+        directory = new File(new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker");
 
         Init_Sound_Ctrl_Images();
 		Init_Sound_Ctrl_Buttons();
@@ -62,17 +62,19 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
         file_chooser = new JFileChooser();
         file_chooser.setCurrentDirectory( directory );
-        file_chooser.setFileFilter( new FileNameExtensionFilter("Sound File", new String[] {"wav"}) );
+        file_chooser.setFileFilter(new FileNameExtensionFilter("Sound File", new String[] {"wav"}));
         drag_source = new DragSource();
-        drag_source.createDefaultDragGestureRecognizer( current_sound, DnDConstants.ACTION_COPY, this );
+        drag_source.createDefaultDragGestureRecognizer(current_sound, DnDConstants.ACTION_COPY, this);
 	}
 
 	@Override
-	public void actionPerformed( ActionEvent ae )
+	public void actionPerformed(ActionEvent actionEvent)
     {
         pausing = false;
 
-		if( ae.getSource() == load_sound )
+        var src = actionEvent.getSource();
+
+		if(ae.getSource() == load_sound )
             Load_Selected_Sound();
 		else if( ae.getSource() == play_sound )
             audio_clip.start();
