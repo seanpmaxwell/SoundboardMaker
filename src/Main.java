@@ -4,12 +4,11 @@
  * created Nov 6, 2018
  */
 
-import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.io.File;
 
 
-public class Main extends JFrame
+class Main extends JFrame
 {
 	private Main()
 	{
@@ -30,23 +29,16 @@ public class Main extends JFrame
 
     private JSplitPane _configureOverallLayout()
     {
-        try {
-            var sboardInner = new SoundboardInner();
-            var sboardOuter = new SoundboardSide(sboardInner);
-            var ctlrSide = new ControllerSide(sboardOuter, sboardInner);
+        var sboardInner = new SoundboardInner();
+        var sboardOuter = new SoundboardSide(sboardInner);
+        var ctlrSide = new ControllerSide(sboardOuter, sboardInner);
 
-            var pane = new JSplitPane();
-            pane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-            pane.add(ctlrSide, JSplitPane.LEFT);
-            pane.add(sboardOuter, JSplitPane.RIGHT);
+        var pane = new JSplitPane();
+        pane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        pane.add(ctlrSide, JSplitPane.LEFT);
+        pane.add(sboardOuter, JSplitPane.RIGHT);
 
-            return pane;
-        }
-        catch(LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return pane;
     }
 
     private void _configureOverallContainer(JSplitPane pane)
@@ -57,11 +49,6 @@ public class Main extends JFrame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setVisible(true);
     }
-
-
-    // ********************************************************************************************************** //
-    //                                      Start the SoundBoard Maker
-    // ********************************************************************************************************** //
 	
 	public static void main(String[] args)
 	{

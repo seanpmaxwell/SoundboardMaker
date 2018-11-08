@@ -8,7 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class SoundboardSide extends JPanel
+class SoundboardSide extends JPanel
 {
 	private JLabel title;
 	private String title_portion;

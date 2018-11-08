@@ -1,13 +1,20 @@
+/**
+ * A single sound button in the soundboard.
+ *
+ * created Nov 6, 2018
+ */
+
 import java.io.Serializable;
 import javax.swing.JButton;
 
-public class Sound_Button extends JButton implements Comparable<Sound_Button>, Serializable 
+
+public class SoundButton extends JButton implements Comparable<SoundButton>, Serializable
 {
 	private String track;
 	private String sound_label;
 	private String project_title; 
 	
-	public Sound_Button( String sound_label )
+	public SoundButton( String sound_label )
     {
 		super(sound_label);
 		Set_Sound_Label( sound_label );
@@ -20,8 +27,9 @@ public class Sound_Button extends JButton implements Comparable<Sound_Button>, S
 	public void Set_Sound_Label( String sound_label ) { this.sound_label = sound_label; }
 	public void Set_Project_Title( String project_title ) { this.project_title = project_title; }
 	public void Set_Track( String path ) { track = path; }
-    
-	public int compareTo( Sound_Button other )
+
+
+	public int compareTo(Sound_Button other)
 	{
 		if( other == null || !(other instanceof Sound_Button) )
 			throw new RuntimeException("Error Comparing Buttons");

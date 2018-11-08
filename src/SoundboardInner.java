@@ -13,69 +13,64 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-public class SoundboardInner extends JPanel implements ActionListener, LineListener
+class SoundboardInner extends JPanel implements ActionListener, LineListener
 {
-    // Misc
-	private JPopupMenu popup;
-	private JMenuItem delete_sound;
-	private JMenuItem rename_sound;
-	private ArrayList<Sound_Button> all_sound_buttons;
-    private JFileChooser file_chooser;
+	private JPopupMenu _popup;
+	private JMenuItem _deleteSound;
+	private JMenuItem _renameSound;
+	private ArrayList<SoundButton> _allSoundBtns;
+    private JFileChooser fileChooser;
     private File directory;
-    private MouseListener popup_listener;
-    private String project_title;
-    private String label;
+    private MouseListener popupListener;
+    private String projectTitle;
+    private String _label;
 
     // Playing Sound
-	private Sound_Button current_sound;
-    private Clip audio_clip;
-
+	private SoundButton _currSound;
+    private Clip _audioClip;
     	
-	SoundboardInner() throws LineUnavailableException
+	SoundboardInner()
 	{
-		all_sound_buttons = new ArrayList<>();
-        directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
+        this._allSoundBtns = new ArrayList<>();
 
-        super.setBackground( Color.WHITE );
-		super.setLayout( new WrapLayout() );
+        var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
+        directory = new File(defaultDir + "\\SoundboardMaker");
+
+        super.setBackground(Color.WHITE);
+		super.setLayout(new WrapLayout());
 
         Init_Button_Popup();
         Set_Key_Bindings();
 	}
 
-
-    // ********************************************************************************************************** //
-    //
-    // ********************************************************************************************************** //
-
-    public void Create_Sound_Button()
+    void createSoundBtn()
     {
-        current_sound = new Sound_Button( label );
-        current_sound.Set_Project_Title( project_title );
-        current_sound.addActionListener( this );
-        current_sound.addMouseListener( new PopupListener() );
+        this._currSound = new SoundButton(this._label);
+        this._currSound.Set_Project_Title(projectTitle);
+        this._currSound.addActionListener(this);
+        this._currSound.addMouseListener(new PopupListener());
 
-        all_sound_buttons.add( current_sound );
-        super.add( current_sound );
-        new Drop_Target_Listener( current_sound );
+        this._allSoundBtns.add(this._currSound);
+        super.add(this._currSound);
+        new Drop_Target_Listener(current_sound);
     }
 
-    public void Create_Sound_Button_Auto( String current_sound_name, String path )
+    void createSoundBtnAuto(String current_sound_name, String path)
     {
-        label = current_sound_name;
-        Create_Sound_Button();
+        this._label = current_sound_name;
+        createSoundBtn();
         current_sound.Set_Track( path );
 
         super.repaint();
         super.revalidate();
     }
 	
-	public String Get_Project_Title()
+	String getProjectTitle()
     {
         return project_title;
     }
 
-    void Load_Project()
+    void loadProject()
     {
         file_chooser = new JFileChooser();
         file_chooser.setFileFilter( new FileNameExtensionFilter( "Soundboard file", new String[] {"sdb"} ) );
@@ -93,7 +88,7 @@ public class SoundboardInner extends JPanel implements ActionListener, LineListe
         }
     }
 
-    public void New_Project()
+    void newProject()
     {
         label = JOptionPane.showInputDialog( null, "Enter Title for this Project", "New Project Title",
                                                      JOptionPane.PLAIN_MESSAGE);
@@ -103,19 +98,19 @@ public class SoundboardInner extends JPanel implements ActionListener, LineListe
         Clean_Panel();
     }
 
-    public void New_Sound()
+    void newSound()
     {
         label = JOptionPane.showInputDialog( null, "Enter Label for this Sound", "New Quote Label",
                                              JOptionPane.PLAIN_MESSAGE );
 
         Check_Name();
-        Create_Sound_Button();
+        this.createSoundBtn();
 
         super.repaint();
         super.revalidate();
     }
 
-    public void Rename_Project()
+    void renameProject()
     {
         label = JOptionPane.showInputDialog( null, "Enter New Title for this Soundboard", "New Project Title",
                                              JOptionPane.PLAIN_MESSAGE );
@@ -125,7 +120,7 @@ public class SoundboardInner extends JPanel implements ActionListener, LineListe
             button.Set_Project_Title( label );
     }
 
-    public void Save_Project()
+    void saveProject()
     {
         if( all_sound_buttons.size() == 0)
             JOptionPane.showMessageDialog(null, "Must create at least one button in order to save");
@@ -138,14 +133,13 @@ public class SoundboardInner extends JPanel implements ActionListener, LineListe
         }
     }
 
-    public void Sort()
+    void sort()
     {
         Collections.sort( all_sound_buttons );
         Clean_Panel();
         Add_All_Buttons();
     }
 
-/******************************** Interface Methods **************************************************/
     @Override
     public void actionPerformed( ActionEvent e )
     {
@@ -167,34 +161,29 @@ public class SoundboardInner extends JPanel implements ActionListener, LineListe
     @Override
     public void update(LineEvent le)
     {
-        if( le.getType().equals(LineEvent.Type.STOP) )
-        {
+        if(le.getType().equals(LineEvent.Type.STOP)) {
             audio_clip.close();
             audio_clip = null;
         }
     }
 
-/************************************** Private Methods **********************************************/
-    private void Add_All_Buttons()
+    private void _addAllBtns()
     {
-        for( Sound_Button btn: all_sound_buttons )
-        {
+        for(SoundButton btn: allSoundBtns ) {
             popup_listener = new PopupListener();
             btn.addActionListener( this );
             btn.addMouseListener( popup_listener );
             super.add( btn );
-            new Drop_Target_Listener( btn );
+            new Drop_Target_Listener(btn);
         }
     }
 
-    private void Check_Name()
+    private void _checkName()
     {
-        if( !label.matches("^[a-zA-Z0-9_ ]+$") )
-        {
+        if(!label.matches("^[a-zA-Z0-9_ ]+$")) {
             JOptionPane.showMessageDialog(null, "Name can only have letters and numbers and cannot be length 0");
             throw new RuntimeException("Name can only have letters and numbers");
         }
-
     }
 
     private void Clean_Panel()

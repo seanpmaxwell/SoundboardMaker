@@ -9,34 +9,30 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class ControllerSide extends JPanel implements ActionListener
+class ControllerSide extends JPanel implements ActionListener
 {
-	private SoundboardInner _sboardInner;
+    private SoundboardInner _sboardInner;
 	private SoundboardSide _sboardSide;
-    private TitleBox titleBox;
+    private TitleBox _titleBox;
 
-    /* Import the pics for the control buttons */
-    private ImageIcon project_ctrl_label;
-    private ImageIcon sound_ctrl_label;
-	private ImageIcon load_icon;
-	private ImageIcon save_icon;
-	private ImageIcon new_project_icon;
-	private ImageIcon new_sound_icon;
-    private ImageIcon sort_icon;
-    private ImageIcon rename_icon;
+    private ImageIcon _projectCtlrLabel;
+    private ImageIcon _soundCtlrLabel;
+	private ImageIcon _loadIcon;
+	private ImageIcon _saveIcon;
+	private ImageIcon _newProjectIcon;
+	private ImageIcon _newSoundIcon;
+    private ImageIcon _sortIcon;
+    private ImageIcon _renameIcon;
 
+	private JButton _loadProjectBtn;
+	private JButton _saveProjectBtn;
+	private JButton _newProjectBtn;
+	private JButton _newSoundBtn;
+	private JButton _sortBtn;
+	private JButton _renameProjectBtn;
 
-    /* The buttons for controlling the current project
-    (not the controls for the current sound */
-	private JButton load_project;
-	private JButton save_project;
-	private JButton new_project;
-	private JButton new_sound;
-	private JButton sort;
-	private JButton rename_project;
+    private GridBagConstraints _gridBag;
 
-    /* To arrange the buttons and labels on the control side */
-    private GridBagConstraints c;
 
 	ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner)
 	{
@@ -45,133 +41,125 @@ public class ControllerSide extends JPanel implements ActionListener
 
         super.setLayout(new GridBagLayout());
         super.setBackground(Color.WHITE);
-        c = new GridBagConstraints();
+        this._gridBag = new GridBagConstraints();
 
-        Init_Images();
-        Init_Project_Ctrl_Buttons();
-        Init_Project_Controller();
-        Init_Project_Action_Listeners();
-        Init_Sound_Controller();
-        Init_Title_Box();
+        this._initProjectCtlrBtns();
+        this._initProjectCtlr();
+        this._initSoundCtlr();
+        this._initTitleBox();
 	}
 
+    private void _initProjectCtlrBtns()
+    {
+        var c = this.getClass();
 
-    // ********************************************************************************************************** //
-    //                                      Interface Methods
-    // ********************************************************************************************************** //
+        var loadIcon = new ImageIcon(c.getResource("load.gif"));
+        var saveIcon = new ImageIcon(c.getResource("save.gif"));
+        var newProjectIcon = new ImageIcon(c.getResource("sdb.gif"));
+        var newSoundIcon = new ImageIcon(c.getResource("quote.gif"));
+        var sortIcon = new ImageIcon(c.getResource("sort.png"));
+        var renameIcon = new ImageIcon(c.getResource("rename.png"));
+
+        this._loadProjectBtn = new JButton("Load", loadIcon);
+        this._saveProjectBtn = new JButton("Save", saveIcon);
+        this._newProjectBtn = new JButton("New Project", newProjectIcon);
+        this._newSoundBtn = new JButton("New Sound", newSoundIcon);
+        this._sortBtn = new JButton("Sort Sounds", sortIcon);
+        this._renameProjectBtn = new JButton("Rename Project", renameIcon);
+
+        this._loadProjectBtn.addActionListener(this);
+        this._newProjectBtn.addActionListener(this);
+        this._newSoundBtn.addActionListener(this);
+        this._renameProjectBtn.addActionListener(this);
+        this._saveProjectBtn.addActionListener(this);
+        this._sortBtn.addActionListener(this);
+    }
+
+    private void _initProjectCtlr()
+    {
+        this._gridBag.gridx = 0;
+        this._gridBag.gridy = 0;
+        this._gridBag.fill = GridBagConstraints.HORIZONTAL;
+
+        var label = this.getClass().getResource("label1.png");
+        this._projectCtlrLabel = new ImageIcon(label);
+        super.add(new JLabel(this._projectCtlrLabel), this._gridBag);
+
+        this._gridBag.gridx = 0;
+        this._gridBag.gridy = 1;
+        this._gridBag.weightx = 1;
+
+        super.add(new ProjectCtlrPanel(), this._gridBag);
+    }
+
+    private void _initSoundCtlr()
+    {
+        var label = this.getClass().getResource("sound_ctrl_label.png");
+        this._soundCtlrLabel = new ImageIcon(label);
+
+        this._gridBag.gridx = 0;
+        this._gridBag.gridy = 2;
+        this._gridBag.weightx = 1;
+        super.add(new JLabel(this._soundCtlrLabel), this._gridBag);
+
+        this._gridBag.gridx = 0;
+        this._gridBag.gridy = 3;
+        this._gridBag.weightx = 1;
+        this._gridBag.weightx = 1;
+        super.add(new SoundController(this._sboardInner), this._gridBag);
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 	    var src = e.getSource();
 
-        if(src == sort) {
-            this._sboardInner.Sort();
+        if(src == this._sortBtn) {
+            this._sboardInner.sort();
         }
-		else if(src == new_sound) {
-            this._sboardInner.New_Sound();
+		else if(src == this._newSoundBtn) {
+            this._sboardInner.newSound();
         }
-		else if(src == save_project) {
-            this._sboardInner.Save_Project();
+		else if(src == this._saveProjectBtn) {
+            this._sboardInner.saveProject();
         }
-		else if(e.getSource() == load_project) {
-            this._sboardInner.Load_Project();
+		else if(src == this._loadProjectBtn) {
+            this._sboardInner.loadProject();
         }
-        else if(e.getSource() == new_project) {
-            this._sboardInner.New_Project();
+        else if(src == this._newProjectBtn) {
+            this._sboardInner.newProject();
         }
-		else if(e.getSource() == rename_project) {
-            this._sboardInner.Rename_Project();
+		else if(src == this._renameProjectBtn) {
+            this._sboardInner.renameProject();
         }
 
-        if(e.getSource() == load_project || e.getSource() == new_project || e.getSource() == rename_project) {
+        if(src == this._loadProjectBtn || src == this._newProjectBtn || src == this._renameProjectBtn) {
             this._sboardSide.SetTitle();
         }
 	}
 
-/**************************** Private Helper Methods **********************************/
-
-    private void Init_Project_Action_Listeners()
+    private void _initTitleBox()
     {
-        load_project.addActionListener( this );
-        new_project.addActionListener( this );
-        new_sound.addActionListener( this );
-        rename_project.addActionListener( this );
-        save_project.addActionListener( this );
-        this.sort.addActionListener( this ); // added this because intellij was saying method contained dup code
+        this._gridBag.gridx = 0;
+        this._gridBag.gridy = 4;
+        this._gridBag.weighty = 1;
+
+        this._titleBox = new TitleBox();
+        super.add(this._titleBox, this._gridBag);
     }
 
-    private void Init_Images()
+    private class ProjectCtlrPanel extends JPanel
     {
-        project_ctrl_label = new ImageIcon( this.getClass().getResource("label1.png") );
-        sound_ctrl_label = new ImageIcon( this.getClass().getResource("sound_ctrl_label.png") );
-        load_icon = new ImageIcon( this.getClass().getResource("load.gif") );
-        save_icon = new ImageIcon( this.getClass().getResource("save.gif") );
-        new_project_icon = new ImageIcon( this.getClass().getResource("sdb.gif") );
-        new_sound_icon = new ImageIcon( this.getClass().getResource("quote.gif") );
-        sort_icon = new ImageIcon( this.getClass().getResource("sort.png") );
-        rename_icon = new ImageIcon( this.getClass().getResource("rename.png") );
-
-    }
-
-    private void Init_Project_Controller()
-    {
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        super.add( new JLabel( project_ctrl_label ), c );
-
-        c.gridx = 0;
-        c.gridy = 1;
-        c.weightx = 1;
-        super.add( new Project_Controller_Panel(), c );
-    }
-
-    private void Init_Project_Ctrl_Buttons()
-    {
-        load_project = new JButton( "Load", load_icon );
-        save_project = new JButton( "Save", save_icon );
-        new_project = new JButton( "New Project", new_project_icon );
-        new_sound = new JButton( "New Sound", new_sound_icon );
-        sort = new JButton( "Sort Sounds", sort_icon );
-        rename_project = new JButton( "Rename Project", rename_icon );
-    }
-
-    private void Init_Sound_Controller()
-    {
-        c.gridx = 0;
-        c.gridy = 2;
-        c.weightx = 1;
-        super.add( new JLabel(sound_ctrl_label), c );
-
-        c.gridx = 0;
-        c.gridy = 3;
-        c.weightx = 1;
-        c.weightx = 1;
-        super.add( new Sound_Controller(sboard_inner), c );
-    }
-
-    private void Init_Title_Box()
-    {
-        c.gridx = 0;
-        c.gridy = 4;
-        c.weighty = 1;
-        title_box = new Title_Box();
-        super.add( title_box, c );
-    }
-
-/******************************* Private class ***************************************/
-    private class Project_Controller_Panel extends JPanel
-    {
-        public Project_Controller_Panel()
+        ProjectCtlrPanel()
         {
-            super.setLayout( new GridLayout(2,3) );
-            super.add( load_project );
-            super.add( save_project );
-            super.add( new_project );
-            super.add( new_sound );
-            super.add( sort );
-            super.add( rename_project );
+            super.setLayout(new GridLayout(2,3));
+
+            super.add(_loadProjectBtn);
+            super.add(_saveProjectBtn);
+            super.add(_newProjectBtn);
+            super.add(_newSoundBtn);
+            super.add(_sortBtn);
+            super.add(_renameProjectBtn);
         }
     }
 }

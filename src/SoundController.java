@@ -1,9 +1,8 @@
 /**
- *
+ * Controller for playing/recording sounds
  *
  * created Nov 6, 2018
  */
-
 
 import java.awt.*;
 import java.awt.dnd.*;
@@ -13,9 +12,9 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class Sound_Controller extends JPanel implements ActionListener, LineListener, DragGestureListener
+
+public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener
 {
-	/* Buttons for loading or recording a new sound */
 	private JButton load_sound;
 	private JButton play_sound;
 	private JButton pause_sound;
@@ -23,7 +22,6 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
 	private JButton record_sound;
 	private JButton current_sound;
 
-    /* Images for control buttons */
     private ImageIcon load_icon;
     private ImageIcon play_icon;
     private ImageIcon pause_icon;
@@ -31,35 +29,31 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
     private ImageIcon record_icon;
     private ImageIcon note_icon;
 
-    /* Layout */
     private Sound_Recorder sound_recorder;
-    private Soundboard_Inner sboard_inner;
+    private SoundboardInner sboard_inner;
     private GridBagConstraints c;
     private JLabel sound_header;
 
-    /* Opening and Playing Sound File */
-    private File wave_file;  //the file on the hard disk, has to be loaded into an audio stream to play
+    // Opening and Playing Sound File
+    private File wave_file;  // the file on the hard disk, has to be loaded into an audio stream to play
     private File directory;
-    private Clip audio_clip; //the actual audio clip itself used to start and stop the sounds
+    private Clip audio_clip; // the actual audio clip itself used to start and stop the sounds
     private JFileChooser file_chooser;
     private FileInputStream fis;
     private BufferedInputStream bis;
     private AudioInputStream audio_input_stream;
 
-    /* Misc */
     private boolean recording;
     private boolean pausing;
     private DragSource drag_source;
     private Cursor cursor;
 
-    public Sound_Controller(Soundboard_Inner sboard_inner)
+    SoundController(SoundboardInner sboard_inner)
     {
         super.setBackground(Color.WHITE);
 		this.sboard_inner = sboard_inner;
-        directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
 
-        var horse = "horse";
-        System.out.println(horse);
+        directory = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker" );
 
         Init_Sound_Ctrl_Images();
 		Init_Sound_Ctrl_Buttons();
@@ -73,8 +67,6 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
         drag_source.createDefaultDragGestureRecognizer( current_sound, DnDConstants.ACTION_COPY, this );
 	}
 
-
-/***************************** Interface Methods ***********************************************/
 	@Override
 	public void actionPerformed( ActionEvent ae )
     {
@@ -109,8 +101,6 @@ public class Sound_Controller extends JPanel implements ActionListener, LineList
 
         dge.startDrag( cursor, new TransferableFile(wave_file) );
     }
-
-/*********************************** Private Methods *************************************/
 
     private void Init_Sound_Action_Listeners()
     {
