@@ -13,14 +13,16 @@ public class SoundRecorder extends Thread
     public void run()
     {
         try {
-            dline_info = new DataLine.Info( TargetDataLine.class, Get_Audio_Format() );
+
+            dline_info = new DataLine.Info(TargetDataLine.class, this._getAudioFormat());
+
             if( !AudioSystem.isLineSupported(dline_info) ) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
 
             target_dline = (TargetDataLine)AudioSystem.getLine( dline_info );
-            target_dline.open( Get_Audio_Format() );
+            target_dline.open(this._getAudioFormat());
             target_dline.start();
 
             audio_input_stream = new AudioInputStream( target_dline );
@@ -28,7 +30,7 @@ public class SoundRecorder extends Thread
             AudioSystem.write( audio_input_stream, AudioFileFormat.Type.WAVE, wave_file );
             audio_input_stream.close();
         }
-        catch (LineUnavailableException | IOException ex) {
+        catch(LineUnavailableException | IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -39,8 +41,9 @@ public class SoundRecorder extends Thread
         target_dline.close();
     }
 
-    // Specify the audio format -> AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
-    private AudioFormat Get_Audio_Format()
+    // Specify the audio format -> AudioFormat(sampleRate, sampleSize(bits),
+    // channels, signed, bigEndian)
+    private AudioFormat _getAudioFormat()
     {
         return new AudioFormat(16000, 8, 2, true, true);
     }
