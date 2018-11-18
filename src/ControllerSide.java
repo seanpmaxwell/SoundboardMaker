@@ -13,16 +13,6 @@ class ControllerSide extends JPanel implements ActionListener
 {
     private SoundboardInner _sboardInner;
 	private SoundboardSide _sboardSide;
-    private TitleBox _titleBox;
-
-    private ImageIcon _projectCtlrLabel;
-    private ImageIcon _soundCtlrLabel;
-	private ImageIcon _loadIcon;
-	private ImageIcon _saveIcon;
-	private ImageIcon _newProjectIcon;
-	private ImageIcon _newSoundIcon;
-    private ImageIcon _sortIcon;
-    private ImageIcon _renameIcon;
 
 	private JButton _loadProjectBtn;
 	private JButton _saveProjectBtn;
@@ -30,8 +20,6 @@ class ControllerSide extends JPanel implements ActionListener
 	private JButton _newSoundBtn;
 	private JButton _sortBtn;
 	private JButton _renameProjectBtn;
-
-    private GridBagConstraints _gridBag;
 
 
 	ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner)
@@ -41,13 +29,16 @@ class ControllerSide extends JPanel implements ActionListener
 
         super.setLayout(new GridBagLayout());
         super.setBackground(Color.WHITE);
-        this._gridBag = new GridBagConstraints();
 
         this._initProjectCtlrBtns();
-        this._initProjectCtlr();
-        this._initSoundCtlr();
-        this._initTitleBox();
+        this._initLayout();
 	}
+
+
+
+	// **************************************************************************************************** //
+    //                                          Initialize Controller
+    // **************************************************************************************************** //
 
     private void _initProjectCtlrBtns()
     {
@@ -75,39 +66,72 @@ class ControllerSide extends JPanel implements ActionListener
         this._sortBtn.addActionListener(this);
     }
 
-    private void _initProjectCtlr()
+    private void _initLayout()
     {
-        this._gridBag.gridx = 0;
-        this._gridBag.gridy = 0;
-        this._gridBag.fill = GridBagConstraints.HORIZONTAL;
+        var gridBag = new GridBagConstraints();
+
+
+        // ******* Project Controller Settings ******* //
+        gridBag.gridx = 0;
+        gridBag.gridy = 0;
+        gridBag.fill = GridBagConstraints.HORIZONTAL;
 
         var label = this.getClass().getResource("label1.png");
-        this._projectCtlrLabel = new ImageIcon(label);
-        super.add(new JLabel(this._projectCtlrLabel), this._gridBag);
+        var icon = new ImageIcon(label);
+        super.add(new JLabel(icon), gridBag);
 
-        this._gridBag.gridx = 0;
-        this._gridBag.gridy = 1;
-        this._gridBag.weightx = 1;
+        gridBag.gridx = 0;
+        gridBag.gridy = 1;
+        gridBag.weightx = 1;
 
-        super.add(new ProjectCtlrPanel(), this._gridBag);
+        class ProjectCtlrPanel extends JPanel {
+            ProjectCtlrPanel() {
+                super.setLayout(new GridLayout(2,3));
+
+                super.add(_loadProjectBtn);
+                super.add(_saveProjectBtn);
+                super.add(_newProjectBtn);
+                super.add(_newSoundBtn);
+                super.add(_sortBtn);
+                super.add(_renameProjectBtn);
+            }
+        }
+
+        super.add(new ProjectCtlrPanel(), gridBag);
+
+
+
+        // ******* Sound Controller Settings ******* //
+        var soundLabel = this.getClass().getResource("sound_ctrl_label.png");
+        var soundIcon = new ImageIcon(soundLabel);
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 2;
+        gridBag.weightx = 1;
+        super.add(new JLabel(soundIcon), gridBag);
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 3;
+        gridBag.weightx = 1;
+        gridBag.weightx = 1;
+        super.add(new SoundController(this._sboardInner), gridBag);
+
+
+
+        // ******* Title Box Settings ******* //
+        gridBag.gridx = 0;
+        gridBag.gridy = 4;
+        gridBag.weighty = 1;
+
+        var titleBox = new TitleBox();
+        super.add(titleBox, gridBag);
     }
 
-    private void _initSoundCtlr()
-    {
-        var label = this.getClass().getResource("sound_ctrl_label.png");
-        this._soundCtlrLabel = new ImageIcon(label);
 
-        this._gridBag.gridx = 0;
-        this._gridBag.gridy = 2;
-        this._gridBag.weightx = 1;
-        super.add(new JLabel(this._soundCtlrLabel), this._gridBag);
 
-        this._gridBag.gridx = 0;
-        this._gridBag.gridy = 3;
-        this._gridBag.weightx = 1;
-        this._gridBag.weightx = 1;
-        super.add(new SoundController(this._sboardInner), this._gridBag);
-    }
+    // **************************************************************************************************** //
+    //                                        Listen for Button Events
+    // **************************************************************************************************** //
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -134,32 +158,7 @@ class ControllerSide extends JPanel implements ActionListener
         }
 
         if(src == this._loadProjectBtn || src == this._newProjectBtn || src == this._renameProjectBtn) {
-            this._sboardSide.SetTitle();
+            this._sboardSide.setProjectTitle();
         }
 	}
-
-    private void _initTitleBox()
-    {
-        this._gridBag.gridx = 0;
-        this._gridBag.gridy = 4;
-        this._gridBag.weighty = 1;
-
-        this._titleBox = new TitleBox();
-        super.add(this._titleBox, this._gridBag);
-    }
-
-    private class ProjectCtlrPanel extends JPanel
-    {
-        ProjectCtlrPanel()
-        {
-            super.setLayout(new GridLayout(2,3));
-
-            super.add(_loadProjectBtn);
-            super.add(_saveProjectBtn);
-            super.add(_newProjectBtn);
-            super.add(_newSoundBtn);
-            super.add(_sortBtn);
-            super.add(_renameProjectBtn);
-        }
-    }
 }

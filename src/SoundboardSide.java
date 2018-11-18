@@ -10,33 +10,39 @@ import javax.swing.*;
 
 class SoundboardSide extends JPanel
 {
-	private JLabel title;
-	private String title_portion;
-	private JScrollPane scroller;
-	private SoundboardInner sboard_inner;
+	private JLabel _title;
+	private SoundboardInner _sboardInner;
+
+    private static final String _TITLE_TXT = "Press 'Enter' to stop sound      PROJECT_NAME: ";
+
 	
 	SoundboardSide(SoundboardInner sboardInner)
     {
-        this.sboard_inner = sboardInner;
+        this._sboardInner = sboardInner;
 
-        title_portion = "Press 'Enter' to stop sound      PROJECT_NAME: ";
-        title = new JLabel(title_portion + "New Project");
-        title.setHorizontalAlignment( JLabel.CENTER );
-        scroller = new JScrollPane(sboard_inner, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // Set title
+        this._title = new JLabel(this._TITLE_TXT  + "New Project");
+        this._title.setHorizontalAlignment(JLabel.CENTER);
+
+        // Set scroll settings
+        var yScroll = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS;
+        var xScroll = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        var scroller = new JScrollPane(this._sboardInner, yScroll, xScroll);
 
 		super.setBackground(Color.white);
 		super.setLayout(new BorderLayout());
-		super.add(title, BorderLayout.NORTH);
+		super.add(this._title, BorderLayout.NORTH);
 		super.add(scroller, BorderLayout.CENTER);
 	}		
 
-	void SetTitle()
+	void setProjectTitle()
     {
-		super.remove(title);
-		title.setText(title_portion + sboard_inner.Get_Project_Title());
+		super.remove(this._title);
 
-		super.add( title, BorderLayout.NORTH );
+		var title = this._sboardInner.getProjectTitle();
+		this._title.setText(this._TITLE_TXT + title);
+
+		super.add(this._title, BorderLayout.NORTH);
 		super.repaint();
 		super.revalidate();
 	}

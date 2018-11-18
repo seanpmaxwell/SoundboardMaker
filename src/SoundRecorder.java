@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Sound_Recorder extends Thread
+public class SoundRecorder extends Thread
 {
     private DataLine.Info dline_info;
     private File wave_file;
@@ -12,11 +12,9 @@ public class Sound_Recorder extends Thread
 
     public void run()
     {
-        try
-        {
+        try {
             dline_info = new DataLine.Info( TargetDataLine.class, Get_Audio_Format() );
-            if ( !AudioSystem.isLineSupported(dline_info) )
-            {
+            if( !AudioSystem.isLineSupported(dline_info) ) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
@@ -30,19 +28,18 @@ public class Sound_Recorder extends Thread
             AudioSystem.write( audio_input_stream, AudioFileFormat.Type.WAVE, wave_file );
             audio_input_stream.close();
         }
-        catch (LineUnavailableException | IOException ex)
-        {
+        catch (LineUnavailableException | IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void Stop_Recording()
+    void stopRecording()
     {
         target_dline.stop();
         target_dline.close();
     }
 
-    /* Specify the audio format -> AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian) */
+    // Specify the audio format -> AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
     private AudioFormat Get_Audio_Format()
     {
         return new AudioFormat(16000, 8, 2, true, true);
