@@ -10,9 +10,9 @@ import javax.swing.JButton;
 
 public class SoundButton extends JButton implements Comparable<SoundButton>, Serializable
 {
-	private String track;
-	private String soundLabel;
-	private String projectTitle;
+	private String _soundLabel;
+	private String _projectTitle;
+    private String _track;
 	
 	SoundButton(String soundLabel)
     {
@@ -22,30 +22,53 @@ public class SoundButton extends JButton implements Comparable<SoundButton>, Ser
 	
 	String getSoundLabel()
 	{
-		return sound_label;
+		return this._soundLabel;
 	}
 
-    String Get_Project_Title() { return project_title; }
-    String Get_Track() { return track; }
-	
-	void Set_Sound_Label( String sound_label ) { this.sound_label = sound_label; }
-	void Set_Project_Title( String project_title ) { this.project_title = project_title; }
-	void Set_Track( String path ) { track = path; }
+    String getProjectTitle()
+    {
+        return this._projectTitle;
+    }
 
+    String getTrack()
+    {
+        return this._track;
+    }
+	
+	void setSoundLabel(String soundLabel)
+    {
+        this._soundLabel = soundLabel;
+    }
+
+	void setProjectTitle(String projectTitle)
+    {
+        this._projectTitle = projectTitle;
+    }
+
+    // track is a string representing a file path
+	void setTrack(String track)
+    {
+        this._track = track;
+    }
 
 	public int compareTo(SoundButton other)
 	{
-		if(other == null || !(other instanceof SoundButton))
-			throw new RuntimeException("Error Comparing Buttons");
+		if(other == null || !(other instanceof SoundButton)) {
+            throw new RuntimeException("Error Comparing Buttons");
+        }
 
-        int comparison = Get_Sound_Label().compareTo( other.Get_Sound_Label() );
+        var otherLabel = other.getSoundLabel();
+        int comparison = getSoundLabel().compareTo(otherLabel);
 				
-		if( comparison == 0 )
-			return 0;
-		else if( comparison > 0 )
-			return 1;
-		else 
-			return -1;
+		if(comparison == 0) {
+            return 0;
+        }
+		else if(comparison > 0) {
+            return 1;
+        }
+		else {
+            return -1;
+        }
 	}
 }
 

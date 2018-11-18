@@ -16,50 +16,90 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 class SoundboardInner extends JPanel implements ActionListener, LineListener
 {
 	private JPopupMenu _popup;
-	private JMenuItem _deleteSound;
-	private JMenuItem _renameSound;
+	private JMenuItem _deleteSoundEle;
+	private JMenuItem _renameSoundEle;
+
 	private ArrayList<SoundButton> _allSoundBtns;
-    private JFileChooser fileChooser;
-    private File directory;
-    private MouseListener popupListener;
-    private String projectTitle;
+    private JFileChooser _fileChooser;
+    private File _directory;
+    private MouseListener _popupListener;
+
+    private String _projectTitle;
     private String _label;
 
     // Playing Sound
-	private SoundButton _currSound;
+	private SoundButton _currSoundBtn;
     private Clip _audioClip;
+
+    private static final File _ROOT_DIR = new File(new JFileChooser().getFileSystemView().getDefaultDirectory() +
+            "\\SoundboardMaker");
+
+
+    // Pick up here, hardcode some strings
+
+
+
+    // **************************************************************************************************** //
+    //                                    Initialize Soundboard Inner Portion
+    // **************************************************************************************************** //
     	
 	SoundboardInner()
 	{
         this._allSoundBtns = new ArrayList<>();
 
-        var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
-        directory = new File(defaultDir + "\\SoundboardMaker");
-
         super.setBackground(Color.WHITE);
 		super.setLayout(new WrapLayout());
 
-        Init_Button_Popup();
-        Set_Key_Bindings();
+        this._initBtnPopup();
+        this._setKeyBindings();
 	}
+
+    private void _initBtnPopup()
+    {
+        this._popup = new JPopupMenu();
+
+        this._deleteSoundEle = new JMenuItem("Delete Sound");
+        this._renameSoundEle = new JMenuItem("Rename Sound");
+
+        this._deleteSoundEle.addActionListener(this);
+        this._renameSoundEle.addActionListener(this);
+
+        this._popup.add(this._deleteSoundEle);
+        this._popup.add(this._renameSoundEle);
+    }
+
+    private void _setKeyBindings()
+    {
+        super.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "stop sound");
+
+        super.getActionMap().put("stop sound", new Key_Binding());
+    }
+
+
+
+    // **************************************************************************************************** //
+    //
+    // **************************************************************************************************** //
 
     void createSoundBtn()
     {
-        this._currSound = new SoundButton(this._label);
-        this._currSound.Set_Project_Title(projectTitle);
-        this._currSound.addActionListener(this);
-        this._currSound.addMouseListener(new PopupListener());
+        this._currSoundBtn = new SoundButton(this._label);
+        this._currSoundBtn.setProjectTitle(this._projectTitle);
+        this._currSoundBtn.addActionListener(this);
+        this._currSoundBtn.addMouseListener(new PopupListener());
 
-        this._allSoundBtns.add(this._currSound);
-        super.add(this._currSound);
-        new Drop_Target_Listener(current_sound);
+        this._allSoundBtns.add(this._currSoundBtn);
+        super.add(this._currSoundBtn);
+
+        new DropTargetListener(this._currSoundBtn);
     }
 
-    void createSoundBtnAuto(String current_sound_name, String path)
+    void createSoundBtnAuto(String currSoundName, String path)
     {
-        this._label = current_sound_name;
+        this._label = currSoundName;
         createSoundBtn();
-        current_sound.Set_Track( path );
+        this._currSoundBtn.setTrack(path);
 
         super.repaint();
         super.revalidate();
@@ -67,35 +107,36 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
 	
 	String getProjectTitle()
     {
-        return project_title;
+        return this._projectTitle;
     }
 
     void loadProject()
     {
-        file_chooser = new JFileChooser();
-        file_chooser.setFileFilter( new FileNameExtensionFilter( "Soundboard file", new String[] {"sdb"} ) );
-        file_chooser.setCurrentDirectory( directory );
+        var filter = new FileNameExtensionFilter("Soundboard file", new String[] {"sdb"});
 
-        if( file_chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION )
-        {
+        this._fileChooser = new JFileChooser();
+        this._fileChooser.setFileFilter(filter);
+        this._fileChooser.setCurrentDirectory(this._ROOT_DIR);
+
+        if(this._fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             Open_Project_File();
 
-            if( all_sound_buttons.size() != 0 )
-                project_title = all_sound_buttons.get(0).Get_Project_Title();
+            if(this._allSoundBtns.size() != 0) {
+                this._projectTitle = this._allSoundBtns.get(0).getProjectTitle();
+            }
 
-            Clean_Panel();
-            Add_All_Buttons();
+            this._cleanPanel();
+            this._addAllBtns();
         }
     }
 
-    void newProject()
+    void createNewProject()
     {
-        label = JOptionPane.showInputDialog( null, "Enter Title for this Project", "New Project Title",
-                                                     JOptionPane.PLAIN_MESSAGE);
+        label = JOptionPane.showInputDialog(null, "Enter Title for this Project", "New Project Title", JOptionPane.PLAIN_MESSAGE);
         Check_Name();
         project_title = label;
         all_sound_buttons.clear();
-        Clean_Panel();
+        this._cleanPanel();
     }
 
     void newSound()
@@ -141,11 +182,11 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
     }
 
     @Override
-    public void actionPerformed( ActionEvent e )
+    public void actionPerformed(ActionEvent actionEvent)
     {
-        if( e.getSource() instanceof Sound_Button )
-        {
-            if( audio_clip != null )
+        if(actionEvent.getSource() instanceof SoundButton) {
+
+            if(audio_clip != null)
                 audio_clip.close();
 
             current_sound = (Sound_Button)e.getSource();
@@ -186,19 +227,13 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         }
     }
 
-    private void Clean_Panel()
+    private void _deleteSound()
     {
-        super.removeAll();
-        super.repaint();
-        super.revalidate();
-    }
+        this._allSoundBtns.remove(this._currSoundBtn);
 
-    private void Delete_Sound()
-    {
-        all_sound_buttons.remove( current_sound );
-
-        if( audio_clip != null )
+        if(audio_clip != null) {
             audio_clip.close();
+        }
 
         super.remove( current_sound );
         super.repaint();
@@ -217,17 +252,6 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
             buttons_to_save.add( btn_to );
         }
         return buttons_to_save;
-    }
-
-    private void Init_Button_Popup()
-    {
-        popup = new JPopupMenu();
-        delete_sound = new JMenuItem( "Delete Sound" );
-        rename_sound = new JMenuItem( "Rename Sound" );
-        delete_sound.addActionListener( this );
-        rename_sound.addActionListener( this );
-        popup.add( delete_sound );
-        popup.add( rename_sound );
     }
 
     private void Open_Project_File()
@@ -293,14 +317,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         }
     }
 
-    private void Set_Key_Bindings()
-    {
-        super.getInputMap( JComponent.WHEN_IN_FOCUSED_WINDOW )
-                .put( KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "stop sound" );
-        super.getActionMap().put("stop sound", new Key_Binding() );
-    }
 
-/************************************ Private Classes *************************************************/
+
+
 	private class PopupListener extends MouseAdapter
 	{
 	    public void mousePressed(MouseEvent e) { maybeShowPopup(e); }
@@ -324,8 +343,17 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
             audio_clip.close();
         }
     }
+
+
+
+    // **************************************************************************************************** //
+    //                                            Shared
+    // **************************************************************************************************** //
+
+    private void _cleanPanel()
+    {
+        super.removeAll();
+        super.repaint();
+        super.revalidate();
+    }
 }
-
-
-
-

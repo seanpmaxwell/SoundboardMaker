@@ -134,8 +134,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     //                                          Listen for Button Events
     // **************************************************************************************************** //
 
-	@Override
-	public void actionPerformed(ActionEvent actionEvent)
+    @Override
+    public void actionPerformed(ActionEvent actionEvent)
     {
         this._isPausing = false;
 
