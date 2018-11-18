@@ -70,8 +70,13 @@ class ControllerSide extends JPanel implements ActionListener
     {
         var gridBag = new GridBagConstraints();
 
+        this._setPrjCtlrLayout(gridBag);
+        this._setSoundCtlrLayout(gridBag);
+        this._setTitleBoxLayout(gridBag);
+    }
 
-        // ******* Project Controller Settings ******* //
+    private void _setPrjCtlrLayout(GridBagConstraints gridBag)
+    {
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.fill = GridBagConstraints.HORIZONTAL;
@@ -98,27 +103,27 @@ class ControllerSide extends JPanel implements ActionListener
         }
 
         super.add(new ProjectCtlrPanel(), gridBag);
+    }
 
-
-
-        // ******* Sound Controller Settings ******* //
-        var soundLabel = this.getClass().getResource("sound_ctrl_label.png");
-        var soundIcon = new ImageIcon(soundLabel);
+    private void _setSoundCtlrLayout(GridBagConstraints gridBag)
+    {
+        var label = this.getClass().getResource("sound_ctrl_label.png");
+        var icon = new ImageIcon(label);
 
         gridBag.gridx = 0;
         gridBag.gridy = 2;
         gridBag.weightx = 1;
-        super.add(new JLabel(soundIcon), gridBag);
+        super.add(new JLabel(icon), gridBag);
 
         gridBag.gridx = 0;
         gridBag.gridy = 3;
         gridBag.weightx = 1;
         gridBag.weightx = 1;
         super.add(new SoundController(this._sboardInner), gridBag);
+    }
 
-
-
-        // ******* Title Box Settings ******* //
+    private void _setTitleBoxLayout(GridBagConstraints gridBag)
+    {
         gridBag.gridx = 0;
         gridBag.gridy = 4;
         gridBag.weighty = 1;
@@ -126,7 +131,6 @@ class ControllerSide extends JPanel implements ActionListener
         var titleBox = new TitleBox();
         super.add(titleBox, gridBag);
     }
-
 
 
     // **************************************************************************************************** //
@@ -142,23 +146,22 @@ class ControllerSide extends JPanel implements ActionListener
             this._sboardInner.sort();
         }
 		else if(src == this._newSoundBtn) {
+            this._sboardSide.setProjectTitle();
             this._sboardInner.newSound();
         }
 		else if(src == this._saveProjectBtn) {
             this._sboardInner.saveProject();
         }
 		else if(src == this._loadProjectBtn) {
+            this._sboardSide.setProjectTitle();
             this._sboardInner.loadProject();
         }
         else if(src == this._newProjectBtn) {
             this._sboardInner.createNewProject();
         }
 		else if(src == this._renameProjectBtn) {
-            this._sboardInner.renameProject();
-        }
-
-        if(src == this._loadProjectBtn || src == this._newProjectBtn || src == this._renameProjectBtn) {
             this._sboardSide.setProjectTitle();
+            this._sboardInner.renameProject();
         }
 	}
 }

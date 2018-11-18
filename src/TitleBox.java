@@ -1,39 +1,41 @@
+/**
+ * Display Title and Instructions
+ *
+ * created Nov 18, 2018
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+
 public class TitleBox extends JPanel implements ActionListener
 {
-    private ImageIcon title_icon;
-    private JButton title_button;
-    private JOptionPane info_box;
+    private JButton _titleBtn;
 
     TitleBox()
     {
-        title_icon = new ImageIcon( this.getClass().getResource("title.png") );
-        title_button = new JButton( title_icon );
-        title_button.setPreferredSize( new Dimension(525, 300) );
-        title_button.addActionListener( this );
-        info_box = new JOptionPane();
+        var titleImg = this.getClass().getResource("title.png");
+        var titleIcon = new ImageIcon(titleImg);
 
-        super.setBackground( Color.WHITE );
-        super.setLayout( new FlowLayout() );
-        super.add( title_button );
+        this._titleBtn = new JButton(titleIcon);
+        this._titleBtn.setPreferredSize(new Dimension(525, 300));
+        this._titleBtn.addActionListener(this);
+
+        super.setBackground(Color.WHITE);
+        super.setLayout(new FlowLayout());
+        super.add(this._titleBtn);
     }
 
     @Override
-    public void actionPerformed( ActionEvent e )
+    public void actionPerformed(ActionEvent actionEvent)
     {
-        if( e.getSource() == title_button )
-            Display_About_Info();
+        if(actionEvent.getSource() == this._titleBtn) {
+            new JOptionPane().showMessageDialog(this, this._getInfo());
+        }
     }
 
-    private void Display_About_Info()
-    {
-        info_box.showMessageDialog( this, Get_Info() );
-    }
-
-    private String Get_Info()
+    private String _getInfo()
     {
         return "_INSTRUCTIONS_\n" +
 

@@ -12,19 +12,15 @@ class Main extends JFrame
 {
     private Main()
     {
-        this._configureDirectory();
+        var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
+        var folderPath = new File(defaultDir + "\\SoundboardMaker");
+
+        if(!folderPath.exists()) {
+            folderPath.mkdir();
+        }
+
         var pane = this._configureOverallLayout();
         this._configureOverallContainer(pane);
-    }
-
-    private void _configureDirectory()
-    {
-        var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
-        var dir = new File(defaultDir + "\\SoundboardMaker");
-
-        if(!dir.exists()) {
-            dir.mkdir();
-        }
     }
 
     private JSplitPane _configureOverallLayout()
@@ -49,6 +45,11 @@ class Main extends JFrame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setVisible(true);
     }
+
+
+    // **************************************************************************************************** //
+    //                                             Start Program
+    // **************************************************************************************************** //
 
     public static void main(String[] args)
     {

@@ -39,8 +39,8 @@ class SoundboardSide extends JPanel
     {
 		super.remove(this._title);
 
-		var title = this._sboardInner.getProjectTitle();
-		this._title.setText(_TITLE_TXT + title);
+		var prjTitle = this._sboardInner.getProjectTitle();
+		this._title.setText(_TITLE_TXT + prjTitle);
 
 		super.add(this._title, BorderLayout.NORTH);
 		super.repaint();

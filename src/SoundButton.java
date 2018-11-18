@@ -51,13 +51,13 @@ public class SoundButton extends JButton implements Comparable<SoundButton>, Ser
         this._track = track;
     }
 
-	public int compareTo(SoundButton other)
+	public int compareTo(SoundButton otherBtn)
 	{
-		if(other == null || !(other instanceof SoundButton)) {
+		if(otherBtn == null || !(otherBtn instanceof SoundButton)) {
             throw new RuntimeException("Error Comparing Buttons");
         }
 
-        var otherLabel = other.getSoundLabel();
+        var otherLabel = otherBtn.getSoundLabel();
         int comparison = getSoundLabel().compareTo(otherLabel);
 				
 		if(comparison == 0) {
@@ -71,4 +71,3 @@ public class SoundButton extends JButton implements Comparable<SoundButton>, Ser
         }
 	}
 }
-

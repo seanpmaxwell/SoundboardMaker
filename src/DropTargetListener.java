@@ -1,49 +1,55 @@
+/**
+ * Drop Target Listener sound a button will be linked to a particular sound.
+ *
+ * created Nov 18, 2018
+ */
+
 import javax.swing.*;
-import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
 import java.io.File;
 import java.nio.file.*;
 
+
 public class DropTargetListener extends DropTargetAdapter
 {
-    private DropTarget _dropTarget;
     private SoundButton _soundButton;
-    private Transferable tr;
-    private File temp_clip;
-    private File wave_file;
-    private String directory;
+    private String _fileNameAndPath;
+
+    private static final String FILE_PATH = new JFileChooser().getFileSystemView().getDefaultDirectory() +
+            "\\SoundboardMaker\\";
 
     DropTargetListener(SoundButton soundButton)
     {
         this._soundButton = soundButton;
-        drop_target = new DropTarget(sound_button, DnDConstants.ACTION_COPY, this, true, null);
-        directory = new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker\\"
-                                + sound_button.Get_Sound_Label() + ".wav";
+        new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
+        this._fileNameAndPath = FILE_PATH + soundButton.getSoundLabel() + ".wav";
     }
 
     @Override
-    public void drop( DropTargetDropEvent event )
+    public void drop(DropTargetDropEvent event)
     {
-        try
-        {
-            tr = event.getTransferable();
-            temp_clip = (File)tr.getTransferData( TransferableFile.fileFlavor );
+        try {
+            var transferable = event.getTransferable();
 
-            if( event.isDataFlavorSupported(TransferableFile.fileFlavor) )
-            {
-                event.acceptDrop( DnDConstants.ACTION_COPY );
+            if(event.isDataFlavorSupported(TransferableFile.FILE_FLAVOR)) {
+                event.acceptDrop(DnDConstants.ACTION_COPY);
 
-                if ( sound_button.Get_Track() == null )
-                    sound_button.Set_Track( directory );
+                if(this._soundButton.getTrack() == null) {
+                    this._soundButton.setTrack(this._fileNameAndPath);
+                }
 
-                wave_file = new File( directory );
-                Files.copy( temp_clip.toPath(), wave_file.toPath(), StandardCopyOption.REPLACE_EXISTING );
-                event.dropComplete( true );
+                var fileFlavor = TransferableFile.FILE_FLAVOR;
+                var tempClip = (File)transferable.getTransferData(fileFlavor);
+                var waveFile = new File(this._fileNameAndPath);
+
+                var opt = StandardCopyOption.REPLACE_EXISTING;
+                Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
+                event.dropComplete(true);
             }
+
             event.rejectDrop();
         }
-        catch( Exception e )
-        {
+        catch(Exception e) {
             e.printStackTrace();
             event.rejectDrop();
         }

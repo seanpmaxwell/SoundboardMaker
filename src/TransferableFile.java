@@ -1,33 +1,45 @@
+/**
+ * Enables files to be drag and dropped for the DropTargetListener class.
+ *
+ * created Nov 18, 2018
+ */
+
 import java.awt.datatransfer.*;
 import java.io.File;
 
-class TransferableFile implements Transferable {
 
-    protected static DataFlavor fileFlavor = new DataFlavor(File.class, "A File Object");
-    protected static DataFlavor[] supportedFlavors = {fileFlavor};
+class TransferableFile implements Transferable
+{
+    static final DataFlavor FILE_FLAVOR = new DataFlavor(File.class, "A File Object");
+    private static DataFlavor[] _supportedFlavors = {FILE_FLAVOR};
 
-    private File file;
+    private File _file;
 
-    public TransferableFile(File file)
+    TransferableFile(File file)
     {
-        this.file = file;
+        this._file = file;
     }
 
+    @Override
     public DataFlavor[] getTransferDataFlavors()
     {
-        return supportedFlavors;
+        return this._supportedFlavors;
     }
 
+    @Override
     public boolean isDataFlavorSupported(DataFlavor flavor)
     {
-        return flavor.equals(fileFlavor) || flavor.equals(DataFlavor.stringFlavor) ? true : false;
+        return flavor.equals(FILE_FLAVOR) || flavor.equals(DataFlavor.stringFlavor);
     }
 
+    @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException
     {
-        if( flavor.equals(fileFlavor) )
-            return file;
-        else
+        if(flavor.equals(FILE_FLAVOR)) {
+            return this._file;
+        }
+        else {
             throw new UnsupportedFlavorException(flavor);
+        }
     }
 }

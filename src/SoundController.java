@@ -35,11 +35,12 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     private boolean _isRecording;
     private boolean _isPausing;
-    private DragSource _dragSrc;
-    private Cursor cursor;
 
-    private static final String _DIR = new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker";
-    private static final String _RECORDED_CLIP_PATH = _DIR + "\\recordedClip.wav";
+    // Constants
+    private static final String _DEFAULT_REC_NAME = "recordedClip.wav";
+    private static final String _DIR = new JFileChooser().getFileSystemView().getDefaultDirectory() + "/SoundboardMaker";
+    private static final String _RECORDED_CLIP_PATH = _DIR + "/" + _DEFAULT_REC_NAME;
+
 
     SoundController(SoundboardInner sboardInner)
     {
@@ -51,17 +52,20 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
         this._fileChooser = new JFileChooser();
         this._fileChooser.setCurrentDirectory(new File(_DIR));
-        this._fileChooser.setFileFilter(new FileNameExtensionFilter("Sound File", new String[] {"wav"}));
 
-        this._dragSrc = new DragSource();
-        this._dragSrc.createDefaultDragGestureRecognizer(this._currentSoundBtn, DnDConstants.ACTION_COPY, this);
+        var extensionFilter = new FileNameExtensionFilter("Sound File", new String[] {"wav"});
+        this._fileChooser.setFileFilter(extensionFilter);
+
+        var dragSrc = new DragSource();
+        var copyAction = DnDConstants.ACTION_COPY;
+        dragSrc.createDefaultDragGestureRecognizer(this._currentSoundBtn, copyAction, this);
 	}
 
 
 
-    // **************************************************************************************************** //
-    //                                          Initialize Controller
-    // **************************************************************************************************** //
+    // ************************************************************************************************************** //
+    //                                           Initialize Sound Controller
+    // ************************************************************************************************************** //
 
     private void _initSoundCtlrBtns()
     {
@@ -94,17 +98,23 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         super.setLayout(new GridBagLayout());
         var gridBag = new GridBagConstraints();
 
+        this._setSoundCtlrLabelLayout(gridBag);
+        this._setSoundCtlrLayout(gridBag);
+    }
 
-        // Sound Controller Label
+    private void _setSoundCtlrLabelLayout(GridBagConstraints gridBag)
+    {
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.ipady = 5;
         gridBag.anchor = GridBagConstraints.NORTH;
-        var soundHeaderLabel = new JLabel("Current Sound:");
-        super.add(soundHeaderLabel, gridBag);
 
+        this._soundHeader = new JLabel("Current Sound:");
+        super.add(this._soundHeader, gridBag);
+    }
 
-        // Sound Controller
+    private void _setSoundCtlrLayout(GridBagConstraints gridBag)
+    {
         gridBag.gridx = 0;
         gridBag.gridy = 1;
         gridBag.weightx = 1;
@@ -127,9 +137,9 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
 
 
-    // **************************************************************************************************** //
-    //                                          Listen for Button Events
-    // **************************************************************************************************** //
+    // ************************************************************************************************************** //
+    //                                             Listen for Events
+    // ************************************************************************************************************** //
 
     @Override
     public void actionPerformed(ActionEvent actionEvent)
@@ -163,7 +173,9 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     private void _loadSelectedSound()
     {
-        if(this._fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        int state = this._fileChooser.showOpenDialog(this);
+
+        if(state == JFileChooser.APPROVE_OPTION) {
 
             if(this._fileChooser.getSelectedFile() == null) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Wrong File Type");
@@ -188,7 +200,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         }
         else {
             this._recordSoundBtn.setText("Start Recording");
-            this._soundHeader.setText("Clip: recordedClip.wav");
+            this._soundHeader.setText("Clip: " + _DEFAULT_REC_NAME);
             this._isRecording = false;
             this._soundRecorder.stopRecording();
             this._soundRecorder = null;
@@ -198,9 +210,12 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     }
 
     @Override
-    public void update(LineEvent event)
+    public void update(LineEvent lineEvent)
     {
-        if(event.getType().equals(LineEvent.Type.STOP) && !this._isPausing) {
+        var stopEvent = LineEvent.Type.STOP;
+        var isStopEvent = lineEvent.getType().equals(stopEvent);
+
+        if(isStopEvent && !this._isPausing) {
             this._audioClip.setFramePosition(0);
         }
     }
@@ -209,22 +224,18 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     public void dragGestureRecognized(DragGestureEvent event)
     {
         if(event.getDragAction() == DnDConstants.ACTION_COPY) {
-            cursor = DragSource.DefaultCopyDrop;
+            var cursor = DragSource.DefaultCopyDrop;
+            var file = new TransferableFile(this._waveFile);
+            event.startDrag(cursor, file);
         }
-
-        event.startDrag(cursor, new TransferableFile(this._waveFile));
     }
 
 
-
-    // **************************************************************************************************** //
-    //                                            Shared
-    // **************************************************************************************************** //
+    // *************************** Shared *************************** //
 
     private void _loadSoundFile()
     {
         try {
-
             var fileInputStream = new FileInputStream(this._waveFile);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);

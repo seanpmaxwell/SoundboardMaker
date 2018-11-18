@@ -1,3 +1,9 @@
+/**
+ * Classes for recording sounds from the user's microphone.
+ *
+ * created Nov 18, 2018
+ */
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.File;
@@ -5,30 +11,35 @@ import java.io.IOException;
 
 public class SoundRecorder extends Thread
 {
-    private DataLine.Info dline_info;
     private File wave_file;
-    private AudioInputStream audio_input_stream;
-    private TargetDataLine target_dline;
+    private TargetDataLine _targetDataLine;
+
+    // AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
+    private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 8, 2, true, true);
+
+    // Location to save new recording
+    private static final String newRecordingPath = new JFileChooser().getFileSystemView().getDefaultDirectory() +
+            "\\SoundboardMaker\\recordedClip.wav";
 
     public void run()
     {
         try {
+            var dataLineInfo = new DataLine.Info(TargetDataLine.class, AUDIO_FORMAT);
 
-            dline_info = new DataLine.Info(TargetDataLine.class, this._getAudioFormat());
-
-            if( !AudioSystem.isLineSupported(dline_info) ) {
+            if(!AudioSystem.isLineSupported(dataLineInfo)) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
 
-            target_dline = (TargetDataLine)AudioSystem.getLine( dline_info );
-            target_dline.open(this._getAudioFormat());
-            target_dline.start();
+            this._targetDataLine = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
+            this._targetDataLine.open(AUDIO_FORMAT);
+            this._targetDataLine.start();
 
-            audio_input_stream = new AudioInputStream( target_dline );
-            wave_file = new File( new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker\\recordedClip.wav" );
-            AudioSystem.write( audio_input_stream, AudioFileFormat.Type.WAVE, wave_file );
-            audio_input_stream.close();
+            var audioInputStream = new AudioInputStream(this._targetDataLine);
+            wave_file = new File(newRecordingPath);
+
+            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, wave_file );
+            audioInputStream.close();
         }
         catch(LineUnavailableException | IOException ex) {
             ex.printStackTrace();
@@ -37,14 +48,7 @@ public class SoundRecorder extends Thread
 
     void stopRecording()
     {
-        target_dline.stop();
-        target_dline.close();
-    }
-
-    // Specify the audio format -> AudioFormat(sampleRate, sampleSize(bits),
-    // channels, signed, bigEndian)
-    private AudioFormat _getAudioFormat()
-    {
-        return new AudioFormat(16000, 8, 2, true, true);
+        this._targetDataLine.stop();
+        this._targetDataLine.close();
     }
 }
