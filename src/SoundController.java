@@ -38,22 +38,19 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private DragSource _dragSrc;
     private Cursor cursor;
 
-    private static final String _RECORDED_CLIP_PATH = new JFileChooser().getFileSystemView().getDefaultDirectory() +
-            "\\SoundboardMaker\\recordedClip.wav";
+    private static final String _DIR = new JFileChooser().getFileSystemView().getDefaultDirectory() + "\\SoundboardMaker";
+    private static final String _RECORDED_CLIP_PATH = _DIR + "\\recordedClip.wav";
 
     SoundController(SoundboardInner sboardInner)
     {
         super.setBackground(Color.WHITE);
 		this._sboardInner = sboardInner;
 
-		var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
-        var directory = new File(defaultDir + "\\SoundboardMaker");
-
 		this._initSoundCtlrBtns();
         this._initLayout();
 
         this._fileChooser = new JFileChooser();
-        this._fileChooser.setCurrentDirectory(directory);
+        this._fileChooser.setCurrentDirectory(new File(_DIR));
         this._fileChooser.setFileFilter(new FileNameExtensionFilter("Sound File", new String[] {"wav"}));
 
         this._dragSrc = new DragSource();
@@ -195,7 +192,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
             this._isRecording = false;
             this._soundRecorder.stopRecording();
             this._soundRecorder = null;
-            this._waveFile = new File(this._RECORDED_CLIP_PATH);
+            this._waveFile = new File(_RECORDED_CLIP_PATH);
             this._loadSoundFile();
         }
     }
@@ -227,6 +224,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private void _loadSoundFile()
     {
         try {
+
             var fileInputStream = new FileInputStream(this._waveFile);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);

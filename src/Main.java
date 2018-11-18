@@ -10,8 +10,8 @@ import java.io.File;
 
 class Main extends JFrame
 {
-	private Main()
-	{
+    private Main()
+    {
         this._configureDirectory();
 		var pane = this._configureOverallLayout();
         this._configureOverallContainer(pane);
@@ -49,8 +49,8 @@ class Main extends JFrame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setVisible(true);
     }
-	
-	public static void main(String[] args)
+
+    public static void main(String[] args)
 	{
 		new Main();
 	}

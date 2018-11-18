@@ -21,7 +21,7 @@ class SoundboardSide extends JPanel
         this._sboardInner = sboardInner;
 
         // Set title
-        this._title = new JLabel(this._TITLE_TXT  + "New Project");
+        this._title = new JLabel(_TITLE_TXT  + "New Project");
         this._title.setHorizontalAlignment(JLabel.CENTER);
 
         // Set scroll settings
@@ -40,7 +40,7 @@ class SoundboardSide extends JPanel
 		super.remove(this._title);
 
 		var title = this._sboardInner.getProjectTitle();
-		this._title.setText(this._TITLE_TXT + title);
+		this._title.setText(_TITLE_TXT + title);
 
 		super.add(this._title, BorderLayout.NORTH);
 		super.repaint();
