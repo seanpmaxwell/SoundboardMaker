@@ -11,27 +11,31 @@ import javax.swing.JButton;
 public class SoundButton extends JButton implements Comparable<SoundButton>, Serializable
 {
 	private String track;
-	private String sound_label;
-	private String project_title; 
+	private String soundLabel;
+	private String projectTitle;
 	
-	public SoundButton( String sound_label )
+	SoundButton(String soundLabel)
     {
-		super(sound_label);
-		Set_Sound_Label( sound_label );
+		super(soundLabel);
+		this.setSoundLabel(soundLabel);
 	}
 	
-	public String Get_Sound_Label() { return sound_label; }
-    public String Get_Project_Title() { return project_title; }
-    public String Get_Track() { return track; }
-	
-	public void Set_Sound_Label( String sound_label ) { this.sound_label = sound_label; }
-	public void Set_Project_Title( String project_title ) { this.project_title = project_title; }
-	public void Set_Track( String path ) { track = path; }
-
-
-	public int compareTo(Sound_Button other)
+	String getSoundLabel()
 	{
-		if( other == null || !(other instanceof Sound_Button) )
+		return sound_label;
+	}
+
+    String Get_Project_Title() { return project_title; }
+    String Get_Track() { return track; }
+	
+	void Set_Sound_Label( String sound_label ) { this.sound_label = sound_label; }
+	void Set_Project_Title( String project_title ) { this.project_title = project_title; }
+	void Set_Track( String path ) { track = path; }
+
+
+	public int compareTo(SoundButton other)
+	{
+		if(other == null || !(other instanceof SoundButton))
 			throw new RuntimeException("Error Comparing Buttons");
 
         int comparison = Get_Sound_Label().compareTo( other.Get_Sound_Label() );

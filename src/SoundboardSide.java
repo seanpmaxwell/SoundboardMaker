@@ -26,7 +26,7 @@ class SoundboardSide extends JPanel
 
         // Set scroll settings
         var yScroll = JScrollPane.VERTICAL_SCROLLBAR_ALWAYS;
-        var xScroll = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        var xScroll = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER;
         var scroller = new JScrollPane(this._sboardInner, yScroll, xScroll);
 
 		super.setBackground(Color.white);

@@ -141,24 +141,24 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
         var src = actionEvent.getSource();
 
-		if(src == this._loadSoundBtn) {
+        if(src == this._loadSoundBtn) {
             this._loadSelectedSound();
         }
-		else if(src == this._playSoundBtn) {
+        else if(src == this._playSoundBtn) {
             this._audioClip.start();
         }
-		else if(src == this._pauseSoundBtn) {
+        else if(src == this._pauseSoundBtn) {
             this._isPausing = true;
             this._audioClip.stop();
         }
-		else if(src == this._stopSoundBtn) {
+        else if(src == this._stopSoundBtn) {
             this._audioClip.setFramePosition(0);
             this._audioClip.stop();
         }
-		else if(src == this._recordSoundBtn) {
+        else if(src == this._recordSoundBtn) {
             this._record();
         }
-		else if(src == this._currentSoundBtn) {
+        else if(src == this._currentSoundBtn) {
             var path = this._waveFile.toPath().toString();
             this._sboardInner.createSoundBtnAuto(this._waveFile.getName(), path);
         }
@@ -200,12 +200,6 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         }
     }
 
-
-
-    // **************************************************************************************************** //
-    //
-    // **************************************************************************************************** //
-
     @Override
     public void update(LineEvent event)
     {
@@ -223,6 +217,12 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
         event.startDrag(cursor, new TransferableFile(this._waveFile));
     }
+
+
+
+    // **************************************************************************************************** //
+    //                                            Shared
+    // **************************************************************************************************** //
 
     private void _loadSoundFile()
     {
