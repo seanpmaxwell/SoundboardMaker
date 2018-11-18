@@ -13,9 +13,9 @@ class Main extends JFrame
     private Main()
     {
         this._configureDirectory();
-		var pane = this._configureOverallLayout();
+        var pane = this._configureOverallLayout();
         this._configureOverallContainer(pane);
-	}
+    }
 
     private void _configureDirectory()
     {
@@ -52,7 +52,7 @@ class Main extends JFrame
 
     public static void main(String[] args)
 	{
-		new Main();
+	    new Main();
 	}
 }
 
