@@ -27,8 +27,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
 	private SoundButton _currSoundBtn;
     private Clip _audioClip;
 
-    private final static File _ROOT_DIR = new File(new JFileChooser().getFileSystemView().getDefaultDirectory() +
-            "\\SoundboardMaker");
+    private final static File _ROOT_DIR = new File(Constants.DEFAULT_DIR);
 
     // New Sound
     private final static String _NEW_SOUND_MSG = "Enter Label for this Sound";
@@ -315,9 +314,11 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
             }
 
             this._currSoundBtn = (SoundButton)actionEvent.getSource();
+            var track = this._currSoundBtn.getTrack();
 
-            this._openSoundFile();
-            this._audioClip.start();
+            if(track != null) {
+                this._openSoundFile(track);
+            }
         }
         else if(src == this._deleteSoundOpt) {
             this._deleteSoundBtn();
@@ -328,10 +329,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         }
     }
 
-    private void _openSoundFile()
+    private void _openSoundFile(String track)
     {
         try {
-            var track = this._currSoundBtn.getTrack();
             var fileInputStream = new FileInputStream(track);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
@@ -339,6 +339,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
             this._audioClip = AudioSystem.getClip();
             this._audioClip.addLineListener(this);
             this._audioClip.open(audioInputStream);
+            this._audioClip.start();
         }
         catch(UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             ex.printStackTrace();

@@ -36,11 +36,6 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private boolean _isRecording;
     private boolean _isPausing;
 
-    // Constants
-    private static final String _DEFAULT_REC_NAME = "recordedClip.wav";
-    private static final String _DIR = new JFileChooser().getFileSystemView().getDefaultDirectory() + "/SoundboardMaker";
-    private static final String _RECORDED_CLIP_PATH = _DIR + "/" + _DEFAULT_REC_NAME;
-
 
     SoundController(SoundboardInner sboardInner)
     {
@@ -51,7 +46,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         this._initLayout();
 
         this._fileChooser = new JFileChooser();
-        this._fileChooser.setCurrentDirectory(new File(_DIR));
+        this._fileChooser.setCurrentDirectory(new File(Constants.DEFAULT_DIR));
 
         var extensionFilter = new FileNameExtensionFilter("Sound File", new String[] {"wav"});
         this._fileChooser.setFileFilter(extensionFilter);
@@ -200,11 +195,11 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         }
         else {
             this._recordSoundBtn.setText("Start Recording");
-            this._soundHeader.setText("Clip: " + _DEFAULT_REC_NAME);
+            this._soundHeader.setText("Clip: " + Constants.DEFAULT_RECORDING_NAME);
             this._isRecording = false;
             this._soundRecorder.stopRecording();
             this._soundRecorder = null;
-            this._waveFile = new File(_RECORDED_CLIP_PATH);
+            this._waveFile = new File(Constants.DEFAULT_RECORDING_PATH);
             this._loadSoundFile();
         }
     }

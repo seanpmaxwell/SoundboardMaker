@@ -12,8 +12,7 @@ class Main extends JFrame
 {
     private Main()
     {
-        var defaultDir = new JFileChooser().getFileSystemView().getDefaultDirectory();
-        var folderPath = new File(defaultDir + "\\SoundboardMaker");
+        var folderPath = new File(Constants.DEFAULT_DIR);
 
         if(!folderPath.exists()) {
             folderPath.mkdir();

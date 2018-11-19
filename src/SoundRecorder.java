@@ -5,7 +5,6 @@
  */
 
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,10 +14,6 @@ public class SoundRecorder extends Thread
 
     // AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
     private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 8, 2, true, true);
-
-    // Location to save new recording
-    private static final String newRecordingPath = new JFileChooser().getFileSystemView().getDefaultDirectory() +
-            "\\SoundboardMaker\\recordedClip.wav";
 
     @Override
     public void run()
@@ -36,7 +31,7 @@ public class SoundRecorder extends Thread
             this._targetDataLine.start();
 
             var audioInputStream = new AudioInputStream(this._targetDataLine);
-            var waveFile = new File(newRecordingPath);
+            var waveFile = new File(Constants.DEFAULT_RECORDING_PATH);
 
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, waveFile);
             audioInputStream.close();

@@ -4,7 +4,6 @@
  * created Nov 18, 2018
  */
 
-import javax.swing.*;
 import java.awt.dnd.*;
 import java.io.File;
 import java.nio.file.*;
@@ -15,14 +14,11 @@ public class DropTargetListener extends DropTargetAdapter
     private SoundButton _soundButton;
     private String _fileNameAndPath;
 
-    private static final String FILE_PATH = new JFileChooser().getFileSystemView().getDefaultDirectory() +
-            "\\SoundboardMaker\\";
-
     DropTargetListener(SoundButton soundButton)
     {
         this._soundButton = soundButton;
         new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
-        this._fileNameAndPath = FILE_PATH + soundButton.getSoundLabel() + ".wav";
+        this._fileNameAndPath = Constants.DEFAULT_DIR + "/" + soundButton.getSoundLabel() + ".wav";
     }
 
     @Override
