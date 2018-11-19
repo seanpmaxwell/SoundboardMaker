@@ -143,9 +143,13 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
                 throw new RuntimeException("No file");
             }
 
-            var fileName = this._fileChooser.getSelectedFile() + ".sdb";
-            var fileOutputStream = new FileOutputStream(fileName);
+            var filePath = this._fileChooser.getSelectedFile();
+            this._projectTitle = filePath.getName();
+
+            var fileNameWithExt = filePath + ".sdb";
+            var fileOutputStream = new FileOutputStream(fileNameWithExt);
             var objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
             objectOutputStream.writeObject(this._getProjectCopy());
         }
         catch(IOException ex) {
@@ -298,6 +302,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
     }
 
 
+
     // ************************************************************************************************************** //
     //                                            Sound Button Actions
     // ************************************************************************************************************** //
@@ -386,6 +391,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
             this._audioClip = null;
         }
     }
+
 
 
     // ************************************************************************************************************** //

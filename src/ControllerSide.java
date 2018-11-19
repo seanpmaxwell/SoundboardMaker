@@ -150,6 +150,7 @@ class ControllerSide extends JPanel implements ActionListener
         }
 		else if(src == this._saveProjectBtn) {
             this._sboardInner.saveProject();
+            this._sboardSide.setProjectTitle();
         }
 		else if(src == this._loadProjectBtn) {
             this._sboardInner.loadProject();

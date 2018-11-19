@@ -37,7 +37,7 @@ public class TitleBox extends JPanel implements ActionListener
 
     private String _getInfo()
     {
-        return "_INSTRUCTIONS_\n" +
+        return "**INSTRUCTIONS**\n" +
 
                 "\nGetting Started: \n" +
                 "This is a soundboard creator. The right side is the soundboard and the left side is the controls for\n" +
@@ -70,7 +70,7 @@ public class TitleBox extends JPanel implements ActionListener
                 "to a button that you created by clicking 'New Sound', click-and-hold on 'Current Sound' then drag the\n " +
                 "cursor to the soundboard button that you want to play that sound.\n" +
 
-                "\n_ABOUT_ \n\n" +
+                "\n**ABOUT** \n\n" +
 
                 "Thank you for choosing Soundboard Maker. This is a simple desktop application for creating soundboards. A\n" +
                 "soundboard is just a panel with a group of buttons. Each button can be labeled and made to play a different\n" +
