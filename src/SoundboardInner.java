@@ -1,5 +1,5 @@
 /**
- * Starter file for the SoundBoard Maker project.
+ * Holds the buttons which play the different sounds when clicked on.
  *
  * created Nov 6, 2018
  */
@@ -45,6 +45,8 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
     // Rename Button
     private final static String _RENAME_BTN_MSG = "Enter Label for this Button";
     private final static String _RENAME_BTN_LABEL = "New Button Label";
+
+    private final static String _NAME_FORMAT_ERR = "Name can only have letters and numbers and cannot be length 0";
 
 
     // **************************************************************************************************** //
@@ -109,11 +111,12 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         var msg = JOptionPane.PLAIN_MESSAGE;
         var label = JOptionPane.showInputDialog(null, _NEW_SOUND_MSG, _NEW_SOUND_LABEL, msg);
 
-        this._checkName(label);
-        this._createSoundBtn(label);
+        if(this._checkName(label)) {
+            this._createSoundBtn(label);
 
-        super.repaint();
-        super.revalidate();
+            super.repaint();
+            super.revalidate();
+        }
     }
 
     void saveProject()
@@ -209,11 +212,14 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         var msg = JOptionPane.PLAIN_MESSAGE;
         var label = JOptionPane.showInputDialog(null, _NEW_PRJ_MSG, _NEW_PRJ_LABEL, msg);
 
-        this._checkName(label);
-
-        this._projectTitle = label;
-        this._allSoundBtns.clear();
-        this._cleanPanel();
+        if(this._checkName(label)) {
+            this._projectTitle = label;
+            this._allSoundBtns.clear();
+            this._cleanPanel();
+        }
+        else {
+            this._projectTitle = "";
+        }
     }
 
     void renameProject()
@@ -221,11 +227,11 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         var msg = JOptionPane.PLAIN_MESSAGE;
         var label = JOptionPane.showInputDialog(null, _RENAME_PRJ_MSG, _NEW_PRJ_LABEL, msg);
 
-        this._checkName(label);
-        this._projectTitle = label;
-
-        for(SoundButton button: this._allSoundBtns) {
-            button.setProjectTitle(label);
+        if(this._checkName(label)) {
+            this._projectTitle = label;
+            for(SoundButton button: this._allSoundBtns) {
+                button.setProjectTitle(label);
+            }
         }
     }
 
@@ -357,15 +363,16 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
         var msg = JOptionPane.PLAIN_MESSAGE;
         var label = JOptionPane.showInputDialog(null, _RENAME_BTN_MSG, _RENAME_BTN_LABEL, msg);
 
-        this._checkName(label);
-        this._currSoundBtn.setSoundLabel(label);
-        this._currSoundBtn.setText(label);
+        if(this._checkName(label)) {
+            this._currSoundBtn.setSoundLabel(label);
+            this._currSoundBtn.setText(label);
+        }
     }
 
 
 
     // ************************************************************************************************************** //
-    //                                                Events
+    //                                                  Events
     // ************************************************************************************************************** //
 
     @Override
@@ -384,11 +391,14 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
     //                                          Shared Multiple Sections
     // ************************************************************************************************************** //
 
-    private void _checkName(String label)
+    private boolean _checkName(String label)
     {
         if(!label.matches("^[a-zA-Z0-9_ ]+$")) {
-            JOptionPane.showMessageDialog(null, "Name can only have letters and numbers and cannot be length 0");
-            throw new RuntimeException("Name can only have letters and numbers");
+            JOptionPane.showMessageDialog(null, _NAME_FORMAT_ERR);
+            return false;
+        }
+        else {
+            return true;
         }
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Container of the SoundMaker which holds the buttons for playing sound.
+ * Outer container of the soundboard side which displays the project title.
  *
  * created Nov 6, 2018
  */

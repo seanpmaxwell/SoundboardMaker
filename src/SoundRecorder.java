@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class SoundRecorder extends Thread
 {
-    private File wave_file;
     private TargetDataLine _targetDataLine;
 
     // AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
@@ -21,6 +20,7 @@ public class SoundRecorder extends Thread
     private static final String newRecordingPath = new JFileChooser().getFileSystemView().getDefaultDirectory() +
             "\\SoundboardMaker\\recordedClip.wav";
 
+    @Override
     public void run()
     {
         try {
@@ -36,9 +36,9 @@ public class SoundRecorder extends Thread
             this._targetDataLine.start();
 
             var audioInputStream = new AudioInputStream(this._targetDataLine);
-            wave_file = new File(newRecordingPath);
+            var waveFile = new File(newRecordingPath);
 
-            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, wave_file );
+            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, waveFile);
             audioInputStream.close();
         }
         catch(LineUnavailableException | IOException ex) {

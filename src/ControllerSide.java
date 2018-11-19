@@ -146,22 +146,22 @@ class ControllerSide extends JPanel implements ActionListener
             this._sboardInner.sort();
         }
 		else if(src == this._newSoundBtn) {
-            this._sboardSide.setProjectTitle();
             this._sboardInner.newSound();
         }
 		else if(src == this._saveProjectBtn) {
             this._sboardInner.saveProject();
         }
 		else if(src == this._loadProjectBtn) {
-            this._sboardSide.setProjectTitle();
             this._sboardInner.loadProject();
+            this._sboardSide.setProjectTitle();
         }
         else if(src == this._newProjectBtn) {
             this._sboardInner.createNewProject();
+            this._sboardSide.setProjectTitle();
         }
 		else if(src == this._renameProjectBtn) {
-            this._sboardSide.setProjectTitle();
             this._sboardInner.renameProject();
+            this._sboardSide.setProjectTitle();
         }
 	}
 }
