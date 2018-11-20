@@ -51,7 +51,7 @@ class ControllerSide extends JPanel implements ActionListener
         var sortIcon = new ImageIcon(c.getResource("sort.png"));
         var renameIcon = new ImageIcon(c.getResource("rename.png"));
 
-        this._loadProjectBtn = new JButton("Load", loadIcon);
+        this._loadProjectBtn = new JButton("Load Project", loadIcon);
         this._saveProjectBtn = new JButton("Save", saveIcon);
         this._newProjectBtn = new JButton("New Project", newProjectIcon);
         this._newSoundBtn = new JButton("New Sound", newSoundIcon);
@@ -69,21 +69,22 @@ class ControllerSide extends JPanel implements ActionListener
     private void _initLayout()
     {
         var gridBag = new GridBagConstraints();
+        var c = this.getClass();
 
-        this._setPrjCtlrLayout(gridBag);
-        this._setSoundCtlrLayout(gridBag);
-        this._setTitleBoxLayout(gridBag);
-    }
 
-    private void _setPrjCtlrLayout(GridBagConstraints gridBag)
-    {
+        // ************** Project Control Label *************** //
+
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.fill = GridBagConstraints.HORIZONTAL;
 
-        var label = this.getClass().getResource("label1.png");
-        var icon = new ImageIcon(label);
-        super.add(new JLabel(icon), gridBag);
+        var projectCtlrLabel = c.getResource("label1.png");
+        var projectCtlrIcon = new ImageIcon(projectCtlrLabel);
+        super.add(new JLabel(projectCtlrIcon), gridBag);
+
+
+
+        // ********** Project Control Buttons Container ****** //
 
         gridBag.gridx = 0;
         gridBag.gridy = 1;
@@ -101,36 +102,48 @@ class ControllerSide extends JPanel implements ActionListener
                 super.add(_renameProjectBtn);
             }
         }
-
         super.add(new ProjectCtlrPanel(), gridBag);
-    }
 
-    private void _setSoundCtlrLayout(GridBagConstraints gridBag)
-    {
-        var label = this.getClass().getResource("sound_ctrl_label.png");
-        var icon = new ImageIcon(label);
 
+        var sep = new JLabel();
         gridBag.gridx = 0;
         gridBag.gridy = 2;
         gridBag.weightx = 1;
-        super.add(new JLabel(icon), gridBag);
+        gridBag.weighty = 4;
+        super.add(sep, gridBag);
+        gridBag.weighty = 0;
+
+
+        // ************** Sound Control Label **************** //
+
+        var soundCtlrLabel = c.getResource("sound_ctrl_label.png");
+        var soundCtlrIcon = new ImageIcon(soundCtlrLabel);
 
         gridBag.gridx = 0;
         gridBag.gridy = 3;
         gridBag.weightx = 1;
-        gridBag.weightx = 1;
-        super.add(new SoundController(this._sboardInner), gridBag);
-    }
+        super.add(new JLabel(soundCtlrIcon), gridBag);
 
-    private void _setTitleBoxLayout(GridBagConstraints gridBag)
-    {
+
+
+        // ********** Sound Control Buttons Container ******* //
+
         gridBag.gridx = 0;
         gridBag.gridy = 4;
-        gridBag.weighty = 1;
+        gridBag.weightx = 1;
+        super.add(new SoundController(this._sboardInner), gridBag);
 
+
+
+        // ************** Title Box Container ************** //
+
+        gridBag.gridx = 0;
+        gridBag.gridy = 5;
+        gridBag.weighty = 1;
         var titleBox = new TitleBox();
         super.add(titleBox, gridBag);
     }
+
 
 
     // **************************************************************************************************** //

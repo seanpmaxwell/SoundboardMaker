@@ -21,7 +21,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 	private JButton _pauseSoundBtn;
 	private JButton _stopSoundBtn;
 	private JButton _recordSoundBtn;
-	private JButton _currentSoundBtn;
+	private JButton _currSoundBtn;
 
 	// Appearance Settings
     private SoundRecorder _soundRecorder;
@@ -53,7 +53,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
         var dragSrc = new DragSource();
         var copyAction = DnDConstants.ACTION_COPY;
-        dragSrc.createDefaultDragGestureRecognizer(this._currentSoundBtn, copyAction, this);
+        dragSrc.createDefaultDragGestureRecognizer(this._currSoundBtn, copyAction, this);
 	}
 
 
@@ -73,19 +73,19 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         var recordIcon = new ImageIcon(c.getResource("record.png"));
         var noteIcon = new ImageIcon(c.getResource("note.png"));
 
-        this._loadSoundBtn = new JButton("Load", loadIcon);
+        this._loadSoundBtn = new JButton("Load Sound", loadIcon);
         this._playSoundBtn = new JButton("Play", playIcon);
         this._pauseSoundBtn = new JButton("Pause", pauseIcon);
         this._stopSoundBtn = new JButton("Stop", stopIcon);
         this._recordSoundBtn = new JButton("Start Recording", recordIcon);
-        this._currentSoundBtn = new JButton("Current Sound", noteIcon);
+        this._currSoundBtn = new JButton("Current Sound", noteIcon);
 
         this._loadSoundBtn.addActionListener(this);
         this._playSoundBtn.addActionListener(this);
         this._pauseSoundBtn.addActionListener(this);
         this._stopSoundBtn.addActionListener(this);
         this._recordSoundBtn.addActionListener(this);
-        this._currentSoundBtn.addActionListener(this);
+        this._currSoundBtn.addActionListener(this);
     }
 
     private void _initLayout()
@@ -123,7 +123,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
                 super.add(_pauseSoundBtn);
                 super.add(_stopSoundBtn);
                 super.add(_recordSoundBtn);
-                super.add(_currentSoundBtn);
+                super.add(_currSoundBtn);
             }
         }
 
@@ -160,7 +160,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         else if(src == this._recordSoundBtn) {
             this._record();
         }
-        else if(src == this._currentSoundBtn) {
+        else if(src == this._currSoundBtn) {
             var path = this._waveFile.toPath().toString();
             this._sboardInner.createSoundBtnAuto(this._waveFile.getName(), path);
         }
