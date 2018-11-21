@@ -12,37 +12,45 @@ import java.nio.file.*;
 public class DropTargetListener extends DropTargetAdapter
 {
     private SoundButton _soundButton;
-    private String _fileNameAndPath;
+    private String _fileFullPath;
 
     DropTargetListener(SoundButton soundButton)
     {
         this._soundButton = soundButton;
         new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
-        this._fileNameAndPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
+
+        this._fileFullPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
     }
 
     @Override
     public void drop(DropTargetDropEvent event)
     {
         try {
-            if(event.isDataFlavorSupported(TransferableFile.FILE_FLAVOR)) {
-                event.acceptDrop(DnDConstants.ACTION_COPY);
+            var fileFlavor = TransferableFile.FILE_FLAVOR;
 
-                if(this._soundButton.getTrack() == null) {
-                    this._soundButton.setTrack(this._fileNameAndPath);
-                }
 
-                var transferable = event.getTransferable();
-                var fileFlavor = TransferableFile.FILE_FLAVOR;
-                var tempClip = (File)transferable.getTransferData(fileFlavor);
-                var waveFile = new File(this._fileNameAndPath);
+            // Check the type of file being dragged
+            if(!event.isDataFlavorSupported(fileFlavor)) {
+                event.rejectDrop();
+                return;
+            }
+            event.acceptDrop(DnDConstants.ACTION_COPY);
 
-                var opt = StandardCopyOption.REPLACE_EXISTING;
-                Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
-                event.dropComplete(true);
+
+            // Configure soundbutton
+            var sb = this._soundButton;
+            if(sb.getTrack() == null) {
+                sb.setTrack(this._fileFullPath);
             }
 
-            event.rejectDrop();
+            // Copy file to new location
+            var transferable = event.getTransferable();
+            var tempClip = (File)transferable.getTransferData(fileFlavor);
+            var waveFile = new File(this._fileFullPath);
+
+            var opt = StandardCopyOption.REPLACE_EXISTING;
+            Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
+            event.dropComplete(true);
         }
         catch(Exception e) {
             e.printStackTrace();
