@@ -18,15 +18,13 @@ public class DropTargetListener extends DropTargetAdapter
     {
         this._soundButton = soundButton;
         new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
-        this._fileNameAndPath = Constants.DEFAULT_DIR + "/" + soundButton.getSoundLabel() + ".wav";
+        this._fileNameAndPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
     }
 
     @Override
     public void drop(DropTargetDropEvent event)
     {
         try {
-            var transferable = event.getTransferable();
-
             if(event.isDataFlavorSupported(TransferableFile.FILE_FLAVOR)) {
                 event.acceptDrop(DnDConstants.ACTION_COPY);
 
@@ -34,6 +32,7 @@ public class DropTargetListener extends DropTargetAdapter
                     this._soundButton.setTrack(this._fileNameAndPath);
                 }
 
+                var transferable = event.getTransferable();
                 var fileFlavor = TransferableFile.FILE_FLAVOR;
                 var tempClip = (File)transferable.getTransferData(fileFlavor);
                 var waveFile = new File(this._fileNameAndPath);

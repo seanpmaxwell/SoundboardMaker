@@ -46,7 +46,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         this._initLayout();
 
         this._fileChooser = new JFileChooser();
-        this._fileChooser.setCurrentDirectory(new File(Constants.DEFAULT_DIR));
+        var defaultDir = new File(Constants.DEFAULT_RECORDING_PATH);
+        this._fileChooser.setCurrentDirectory(defaultDir);
 
         var extensionFilter = new FileNameExtensionFilter("Sound File", new String[] {"wav"});
         this._fileChooser.setFileFilter(extensionFilter);

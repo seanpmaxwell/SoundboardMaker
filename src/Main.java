@@ -14,10 +14,20 @@ class Main extends JFrame
 {
     private Main()
     {
-        var folderPath = new File(Constants.DEFAULT_DIR);
+        var defaultDir = new File(Constants.DEFAULT_DIR);
+        var projectsDir = new File(Constants.PROJECTS_DIR);
+        var soundPath = new File(Constants.SOUNDS_DIR);
 
-        if(!folderPath.exists()) {
-            folderPath.mkdir();
+        if(!defaultDir.exists()) {
+            defaultDir.mkdir();
+        }
+
+        if(!projectsDir.exists()) {
+            projectsDir.mkdir();
+        }
+
+        if(!soundPath.exists()) {
+            soundPath.mkdir();
         }
 
         var pane = this._configureOverallLayout();
