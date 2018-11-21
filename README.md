@@ -1,9 +1,9 @@
 # SoundboardMaker
 
-created by Sean Maxwell 
+created by Sean Maxwell
 
 
-#### Overview
+**Overview:**
 Thanks your for checking out SoundboardMaker. This is a Java desktop application for creating custom soundboards. It was 
 my first personal project that I did while still a student in computer science. I initially created this project in the 
 summer of 2014 with Java 7. Recently, I updated it to Java 11 4 years after I first created it. This isn't a complex 
