@@ -16,14 +16,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener
 {
     // Define buttons
-	private JButton _loadSoundBtn;
-	private JButton _playSoundBtn;
-	private JButton _pauseSoundBtn;
-	private JButton _stopSoundBtn;
-	private JButton _recordSoundBtn;
-	private JButton _currSoundBtn;
+    private JButton _loadSoundBtn;
+    private JButton _playSoundBtn;
+    private JButton _pauseSoundBtn;
+    private JButton _stopSoundBtn;
+    private JButton _recordSoundBtn;
+    private JButton _currSoundBtn;
 
-	// Appearance Settings
+    // Appearance Settings
     private SoundRecorder _soundRecorder;
     private SoundboardInner _sboardInner;
     private JLabel _soundHeader;
@@ -40,9 +40,9 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     SoundController(SoundboardInner sboardInner)
     {
         super.setBackground(Color.WHITE);
-		this._sboardInner = sboardInner;
+        this._sboardInner = sboardInner;
 
-		this._initSoundCtlrBtns();
+        this._initSoundCtlrBtns();
         this._initLayout();
 
         this._fileChooser = new JFileChooser();
@@ -55,7 +55,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         var dragSrc = new DragSource();
         var copyAction = DnDConstants.ACTION_COPY;
         dragSrc.createDefaultDragGestureRecognizer(this._currSoundBtn, copyAction, this);
-	}
+    }
 
 
 
@@ -165,7 +165,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
             var path = this._waveFile.toPath().toString();
             this._sboardInner.createSoundBtnAuto(this._waveFile.getName(), path);
         }
-	}
+    }
 
     private void _loadSelectedSound()
     {
