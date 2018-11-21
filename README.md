@@ -24,8 +24,8 @@ Please star this repo if actually find this project useful.
 
 ## Table of Contents
 
-* [Architecture](#architecture)
-* [Get the Repo](#get-repo)
+* [Download](#download)
+* [Start Program](#start-program)
 * [Installing the Dev Stack](#installing-dev-stack)
 * [Setting up Webstorm](#setting-up-webstorm)
 * [Install pgAdmin4](#install-pgAdmin4)
@@ -39,10 +39,15 @@ Please star this repo if actually find this project useful.
 
 
 
-## <a name="architecture"></a> Architecture
+## <a name="download"></a> Download
 
 ![alt text](architecture.png)
 
 <br/>
+
+
+## <a name="start-program"></a> Start Program
+
+![alt text](architecture.png)
     
 
