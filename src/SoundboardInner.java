@@ -15,16 +15,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 class SoundboardInner extends JPanel implements ActionListener, LineListener
 {
-	private JPopupMenu _popup;
-	private JMenuItem _deleteSoundOpt;
-	private JMenuItem _renameSoundOpt;
+    private JPopupMenu _popup;
+    private JMenuItem _deleteSoundOpt;
+    private JMenuItem _renameSoundOpt;
 
-	private JFileChooser _fileChooser;
-	private ArrayList<SoundButton> _allSoundBtns;
+    private JFileChooser _fileChooser;
+    private ArrayList<SoundButton> _allSoundBtns;
     private String _projectTitle;
 
     // Playing Sound
-	private SoundButton _currSoundBtn;
+    private SoundButton _currSoundBtn;
     private Clip _audioClip;
 
     // New Sound
@@ -49,17 +49,17 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener
     // **************************************************************************************************** //
     //                                    Initialize Soundboard Inner Portion
     // **************************************************************************************************** //
-    	
-	SoundboardInner()
-	{
+
+    SoundboardInner()
+    {
         this._allSoundBtns = new ArrayList();
 
         super.setBackground(Color.WHITE);
-		super.setLayout(new WrapLayout());
+        super.setLayout(new WrapLayout());
 
         this._initBtnPopup();
         this._setKeyBindings();
-	}
+    }
 
     private void _initBtnPopup()
     {
