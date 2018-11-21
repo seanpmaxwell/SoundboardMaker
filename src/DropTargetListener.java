@@ -38,9 +38,8 @@ public class DropTargetListener extends DropTargetAdapter
 
 
             // Configure soundbutton
-            var sb = this._soundButton;
-            if(sb.getTrack() == null) {
-                sb.setTrack(this._fileFullPath);
+            if(this._soundButton.getTrack() == null) {
+                this._soundButton.setTrack(this._fileFullPath);
             }
 
             // Copy file to new location
