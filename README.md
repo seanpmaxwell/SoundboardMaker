@@ -3,6 +3,8 @@
 created by Sean Maxwell
 
 
+<br>
+<br>
 **Overview:**<br>
 Thanks your for checking out SoundboardMaker. This is a Java desktop application for creating custom soundboards. It was 
 my first personal project that I did while still a student in computer science. I initially created this project in the 
