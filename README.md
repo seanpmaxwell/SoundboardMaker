@@ -26,13 +26,6 @@ Please star this repo if actually find this project useful.
 
 * [Download](#download)
 * [Start Program](#start-program)
-* [Installing the Dev Stack](#installing-dev-stack)
-* [Setting up Webstorm](#setting-up-webstorm)
-* [Install pgAdmin4](#install-pgAdmin4)
-* [Start Services](#start-services)
-* [Install Postman](#install-postman)
-* [Routes](#routes)
-* [Testing](#testing)
 
 <br>
 
