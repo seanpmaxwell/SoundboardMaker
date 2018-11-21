@@ -11,7 +11,7 @@ Please star this repo if actually find this project useful.
 
 
 
-![alt text](./images/title.png)
+![alt text](Images/title.png "Description goes here")
 
 
 
