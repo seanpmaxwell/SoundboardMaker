@@ -1,8 +1,6 @@
 /**
  * Starter file for the SoundBoard Maker project.
  *
- * Start file in Ubuntu with "/usr/lib/jvm/jdk-11/bin/java -jar Soundboard_Maker.jar"
- *
  * created Nov 6, 2018
  */
 
