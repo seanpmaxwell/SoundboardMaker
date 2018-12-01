@@ -1,6 +1,6 @@
 # SoundboardMaker
 
-created by Sean Maxwell
+Requires Java 11. Created by Sean Maxwell, Summer 2014/Nov 2018
 
 <br>
 <br>
@@ -26,21 +26,25 @@ Please star this repo if actually find this project useful.
 
 * [Download](#download)
 * [Start Program](#start-program)
+* [New Project](#new-project)
 
 <br>
 
 
 
-
 ## <a name="download"></a> Download
 
-![alt text](architecture.png)
+To download the program, please go to my website <a href='http://seanpmaxwell.com/projects'>seanpmaxwell.com/projects</a>
+and notice the "Linux" and "Windows" buttons near the bottom for the SoundboardMaker. Download the appropriate .jar file 
+for your Operating System.  
 
 <br/>
 
 
 ## <a name="start-program"></a> Start Program
 
-![alt text](architecture.png)
+Once you have the jar downloaded, you'll 
     
 
+
+## <a name="new-project"></a> New Project
