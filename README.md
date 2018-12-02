@@ -26,8 +26,10 @@ Please star this repo if actually find this project useful.
 * [Download](#download)
 * [Start Program](#start-program)
 * [New Project](#new-project)
-* [Add Sound Buttons](#add-sounds)
+* [Add Sound-Buttons](#add-sounds)
 * [Add Sound to Button](#add-sound-to-btn)
+* [Upload a Sound](#add-sound-to-btn)
+* [Delete/Rename Sound](#del-rename)
 
 <br>
 
@@ -67,7 +69,7 @@ add buttons to it. After you click "New Project", you will get a prompt asking y
 <br>
 
 
-## <a name="add-sounds"></a> Add Sound Buttons
+## <a name="add-sounds"></a> Add Sound-Buttons
 
 To add sounds to a soundboard, you need to create buttons to hold those sounds. To create a new button/sound, click the
 "New Sound" button after creating a new project. You'll be prompted to enter a label, and a new button with the label
@@ -78,4 +80,16 @@ will appear on the right side of the window.
 
 ## <a name="add-sound-to-btn"></a> Add Sound to Button
 
-There a two ways to upload a sound 
+There a two ways to upload a sound: you can upload a music file from your system or you can record you own sound. Either 
+way, the current sound will be stored in the "Current Sound" button. To connect a sound-button on the soundboard display
+click and hold the "Current Sound" button, then drag-and-drop the cursor onto the sound-button that you want to play the
+currently stored sound. When you click the sound-button, it should now play that sound. You can press enter to stop the
+sound from playing.
+
+<br>
+
+
+## <a name="del-rename"></a> Delete/Rename a Sound-Button
+
+If you want to delete or rename a sound-button, right click the button and a menu will dropdown. Select the option that
+you want.
