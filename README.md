@@ -30,6 +30,7 @@ Please star this repo if actually find this project useful.
 * [Add Sound to Button](#add-sound-to-btn)
 * [Upload a Sound](#add-sound-to-btn)
 * [Delete/Rename Sound](#del-rename)
+* [Upload Sound](#upload-sound)
 
 <br>
 
@@ -78,13 +79,15 @@ will appear on the right side of the window.
 <br>
 
 
-## <a name="add-sound-to-btn"></a> Add Sound to Button
+## <a name="add-sound-to-btn"></a> Add sound to a Sound-Button
 
 There a two ways to upload a sound: you can upload a music file from your system or you can record you own sound. Either 
 way, the current sound will be stored in the "Current Sound" button. To connect a sound-button on the soundboard display
 click and hold the "Current Sound" button, then drag-and-drop the cursor onto the sound-button that you want to play the
 currently stored sound. When you click the sound-button, it should now play that sound. You can press enter to stop the
 sound from playing.
+
+![alt text](Images/addSound.gif)
 
 <br>
 
@@ -93,3 +96,10 @@ sound from playing.
 
 If you want to delete or rename a sound-button, right click the button and a menu will dropdown. Select the option that
 you want.
+
+<br>
+
+
+## <a name="upload-sound"></a> Upload a Sound
+
+If you want to use a sound that you already have on your system, click the // pick up here
