@@ -15,10 +15,9 @@ I did not want it to die and I also wanted to play with Java 11, so I decided to
 Please star this repo if actually find this project useful. 
 
 
-
 ![alt text](Images/mainSS.png)
 
-
+<br>
 
 
 
@@ -27,6 +26,8 @@ Please star this repo if actually find this project useful.
 * [Download](#download)
 * [Start Program](#start-program)
 * [New Project](#new-project)
+* [Add Sound Buttons](#add-sounds)
+* [Add Sound to Button](#add-sound-to-btn)
 
 <br>
 
@@ -53,6 +54,28 @@ to switch your default version you can download Java 11 and do:
 
 `/usr/lib/jvm/jdk-11/bin/java -jar Soundboard_Maker.jar`
     
+<br/>
 
 
 ## <a name="new-project"></a> New Project
+
+You don't need to create a new project to start making sounds, but if you want to save your soundboard you need to have
+it as part of a project. Don't create a bunch of buttons and then click "New Project". If you click "New Project" 
+without saving first, it will erase all your buttons. So the first thing you should do is create a new project and then
+add buttons to it. After you click "New Project", you will get a prompt asking you what to name it.
+
+<br>
+
+
+## <a name="add-sounds"></a> Add Sound Buttons
+
+To add sounds to a soundboard, you need to create buttons to hold those sounds. To create a new button/sound, click the
+"New Sound" button after creating a new project. You'll be prompted to enter a label, and a new button with the label
+will appear on the right side of the window.
+
+<br>
+
+
+## <a name="add-sound-to-btn"></a> Add Sound to Button
+
+There a two ways to upload a sound 
