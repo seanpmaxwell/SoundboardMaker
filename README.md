@@ -128,4 +128,12 @@ a sound) to a sound-button to assign the recorded clip to a sound-button.
 
 Once you have created a satisfactory amount of sound-buttons, click the "Save" button to save a new project. You'll see
 a system file window open and ask you where you want to save the file. Give the project a name and it will be saved with
-the file extension _.sdb_ appended to the end of it. 
+the file extension _.sdb_ appended to the end of it.
+
+<br>
+
+
+## <a name="load-project"></a> Load Project
+
+If you've saved a project then started a new project or closed the program, you can reopen a saved project. Click "Load 
+Project" and select your previously saved project. 
