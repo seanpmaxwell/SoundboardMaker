@@ -30,7 +30,8 @@ Please star this repo if actually find this project useful.
 * [Add Sound to Button](#add-sound-to-btn)
 * [Upload a Sound](#add-sound-to-btn)
 * [Delete/Rename Sound](#del-rename)
-* [Upload Sound](#upload-sound)
+* [Upload a Sound](#upload-sound)
+* [Record a Sound](#record-sound)
 
 <br>
 
@@ -39,8 +40,8 @@ Please star this repo if actually find this project useful.
 ## <a name="download"></a> Download
 
 To download the program, please go to my website <a href='http://seanpmaxwell.com/projects'>seanpmaxwell.com/projects</a>
-and notice the "Linux" and "Windows" buttons near the bottom for the SoundboardMaker. Download the appropriate .jar file 
-for your Operating System.  
+and notice the "Linux" and "Windows" buttons near the bottom for the **SoundboardMaker** project. Download the appropriate 
+_.jar_ file for your Operating System.  
 
 <br/>
 
@@ -102,4 +103,17 @@ you want.
 
 ## <a name="upload-sound"></a> Upload a Sound
 
-If you want to use a sound that you already have on your system, click the // pick up here
+If you want to use a sound that you already have on your system, click the "Load Sound" button and select a sound from
+your file system. After doing so, if you click "Play", "Pause", or "Stop". You can add the sound to a sound-button by 
+dragging-and-dropping the current sound to a sound on the soundboard.
+
+<br>
+
+
+## <a name="upload-sound"></a> Record a Sound
+
+To record a sound you need to have a microphone connected to your pc. Click the "Start Recording" button and record 
+whatever sound want through your microphone. While recording, the text on the "Start Recording" button will change to 
+"Stop Recording". When you are finished, click "Stop Recording". The recorded clip will now be the current sound for the
+sound controller. You can click "Play", "Pause", and "Stop" the same as if you had loaded a sound. The new clip will be
+recorded as _recordedClip.wav_ under _SoundboardMaker/Clips_. 
