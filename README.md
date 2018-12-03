@@ -28,10 +28,12 @@ Please star this repo if actually find this project useful.
 * [New Project](#new-project)
 * [Add Sound-Buttons](#add-sounds)
 * [Add Sound to Button](#add-sound-to-btn)
-* [Upload a Sound](#add-sound-to-btn)
+* [Upload a Sound](#upload-sound)
 * [Delete/Rename Sound](#del-rename)
 * [Upload a Sound](#upload-sound)
 * [Record a Sound](#record-sound)
+* [Save Project](#save-project)
+* [Load Project](#load-project)
 
 <br>
 
@@ -110,10 +112,20 @@ dragging-and-dropping the current sound to a sound on the soundboard.
 <br>
 
 
-## <a name="upload-sound"></a> Record a Sound
+## <a name="record-sound"></a> Record a Sound
 
 To record a sound you need to have a microphone connected to your pc. Click the "Start Recording" button and record 
 whatever sound want through your microphone. While recording, the text on the "Start Recording" button will change to 
 "Stop Recording". When you are finished, click "Stop Recording". The recorded clip will now be the current sound for the
 sound controller. You can click "Play", "Pause", and "Stop" the same as if you had loaded a sound. The new clip will be
-recorded as _recordedClip.wav_ under _SoundboardMaker/Clips_. 
+recorded as _recordedClip.wav_ under _SoundboardMaker/Clips_. Click-and-drag from "Current Sound" (same as if you loaded
+a sound) to a sound-button to assign the recorded clip to a sound-button.
+
+<br>
+
+
+## <a name="save-project"></a> Save Project
+
+Once you have created a satisfactory amount of sound-buttons, click the "Save" button to save a new project. You'll see
+a system file window open and ask you where you want to save the file. Give the project a name and it will be saved with
+the file extension _.sdb_ appended to the end of it. 
