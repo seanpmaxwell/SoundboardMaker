@@ -53,12 +53,12 @@ _.jar_ file for your Operating System.
 Once you have the jar downloaded, you'll need to use Java 11 to start it. If Java 11 is your default version go ahead
 and start it:
 
-`java -jar Soundboard_Maker.jar`
+`java -jar SoundboardMaker.jar`
 
 I developed the project on Linux for which Java 11 was not the default version. If you're on Linux and you don't want
 to switch your default version you can download Java 11 and do:
 
-`/usr/lib/jvm/jdk-11/bin/java -jar Soundboard_Maker.jar`
+`/usr/lib/jvm/jdk-11/bin/java -jar SoundboardMaker.jar`
     
 <br/>
 
