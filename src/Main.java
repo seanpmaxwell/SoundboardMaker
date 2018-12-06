@@ -16,15 +16,15 @@ class Main extends JFrame
         var projectsDir = new File(Constants.PROJECTS_DIR);
         var soundPath = new File(Constants.SOUNDS_DIR);
 
-        if(!defaultDir.exists()) {
+        if (!defaultDir.exists()) {
             defaultDir.mkdir();
         }
 
-        if(!projectsDir.exists()) {
+        if (!projectsDir.exists()) {
             projectsDir.mkdir();
         }
 
-        if(!soundPath.exists()) {
+        if (!soundPath.exists()) {
             soundPath.mkdir();
         }
 
@@ -65,4 +65,3 @@ class Main extends JFrame
         new Main();
     }
 }
-
