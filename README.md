@@ -55,10 +55,15 @@ and start it:
 
 `java -jar SoundboardMaker.jar`
 
+
 I developed the project on Linux for which Java 11 was not the default version. If you're on Linux and you don't want
 to switch your default version you can download Java 11 and do:
 
 `/usr/lib/jvm/jdk-11/bin/java -jar SoundboardMaker.jar`
+
+or on windows:
+
+`C:\wherever you downloaded java11\jdk-11.0.1\bin\java -jar SoundboardMakerWin.jar`
     
 <br/>
 
