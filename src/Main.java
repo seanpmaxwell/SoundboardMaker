@@ -10,7 +10,7 @@ import java.io.File;
 
 class Main extends JFrame
 {
-    private Main()
+    void start()
     {
         var defaultDir = new File(Constants.DEFAULT_DIR);
         var projectsDir = new File(Constants.PROJECTS_DIR);
@@ -62,6 +62,7 @@ class Main extends JFrame
 
     public static void main(String[] args)
     {
-        new Main();
+        var main = new Main();
+        main.start();
     }
 }
