@@ -8,10 +8,10 @@ import javax.swing.*;
 import java.io.File;
 
 
-class Main extends JFrame {
-
-    private Main() {
-
+class Main extends JFrame
+{
+    void start()
+    {
         var defaultDir = new File(Constants.DEFAULT_DIR);
         var projectsDir = new File(Constants.PROJECTS_DIR);
         var soundPath = new File(Constants.SOUNDS_DIR);
@@ -32,8 +32,8 @@ class Main extends JFrame {
         this._configureOverallContainer(pane);
     }
 
-    private JSplitPane _configureOverallLayout() {
-
+    private JSplitPane _configureOverallLayout()
+    {
         var sboardInner = new SoundboardInner();
         var sboardOuter = new SoundboardSide(sboardInner);
         var ctlrSide = new ControllerSide(sboardOuter, sboardInner);
@@ -46,7 +46,8 @@ class Main extends JFrame {
         return pane;
     }
 
-    private void _configureOverallContainer(JSplitPane pane) {
+    private void _configureOverallContainer(JSplitPane pane)
+    {
         super.getContentPane().add(pane);
         super.setBounds(400, 100, 1300, 600);
         super.setTitle("Soundboard Maker");
@@ -61,6 +62,7 @@ class Main extends JFrame {
 
     public static void main(String[] args)
     {
-        new Main();
+        var main = new Main();
+        main.start();
     }
 }
