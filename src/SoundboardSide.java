@@ -8,16 +8,16 @@ import java.awt.*;
 import javax.swing.*;
 
 
-class SoundboardSide extends JPanel
-{
+class SoundboardSide extends JPanel {
+
     private JLabel _title;
     private SoundboardInner _sboardInner;
 
     private static final String _TITLE_TXT = "Press 'Enter' to stop sound      PROJECT_NAME: ";
 
 
-    SoundboardSide(SoundboardInner sboardInner)
-    {
+    SoundboardSide(SoundboardInner sboardInner) {
+
         this._sboardInner = sboardInner;
 
         // Set title
@@ -35,8 +35,8 @@ class SoundboardSide extends JPanel
         super.add(scroller, BorderLayout.CENTER);
     }
 
-    void setProjectTitle()
-    {
+    void setProjectTitle() {
+
         super.remove(this._title);
 
         var prjTitle = this._sboardInner.getProjectTitle();

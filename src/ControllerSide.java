@@ -9,8 +9,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-class ControllerSide extends JPanel implements ActionListener
-{
+class ControllerSide extends JPanel implements ActionListener {
+
     private SoundboardInner _sboardInner;
     private SoundboardSide _sboardSide;
 
@@ -22,8 +22,8 @@ class ControllerSide extends JPanel implements ActionListener
     private JButton _renameProjectBtn;
 
 
-    ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner)
-    {
+    ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner) {
+
         this._sboardSide = sboardOuter;
         this._sboardInner = sboardInner;
 
@@ -40,8 +40,8 @@ class ControllerSide extends JPanel implements ActionListener
     //                                          Initialize Controller
     // **************************************************************************************************** //
 
-    private void _initProjectCtlrBtns()
-    {
+    private void _initProjectCtlrBtns() {
+
         var c = this.getClass();
 
         var loadIcon = new ImageIcon(c.getResource("load.gif"));
@@ -66,8 +66,8 @@ class ControllerSide extends JPanel implements ActionListener
         this._sortBtn.addActionListener(this);
     }
 
-    private void _initLayout()
-    {
+    private void _initLayout() {
+
         var gridBag = new GridBagConstraints();
         var c = this.getClass();
 
@@ -151,29 +151,24 @@ class ControllerSide extends JPanel implements ActionListener
     // **************************************************************************************************** //
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
+
         var src = e.getSource();
 
-        if(src == this._sortBtn) {
+        if (src == this._sortBtn) {
             this._sboardInner.sort();
-        }
-        else if(src == this._newSoundBtn) {
+        } else if (src == this._newSoundBtn) {
             this._sboardInner.newSound();
-        }
-        else if(src == this._saveProjectBtn) {
+        } else if (src == this._saveProjectBtn) {
             this._sboardInner.saveProject();
             this._sboardSide.setProjectTitle();
-        }
-        else if(src == this._loadProjectBtn) {
+        } else if (src == this._loadProjectBtn) {
             this._sboardInner.loadProject();
             this._sboardSide.setProjectTitle();
-        }
-        else if(src == this._newProjectBtn) {
+        } else if (src == this._newProjectBtn) {
             this._sboardInner.createNewProject();
             this._sboardSide.setProjectTitle();
-        }
-        else if(src == this._renameProjectBtn) {
+        } else if (src == this._renameProjectBtn) {
             this._sboardInner.renameProject();
             this._sboardSide.setProjectTitle();
         }

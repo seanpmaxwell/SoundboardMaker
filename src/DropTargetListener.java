@@ -9,36 +9,37 @@ import java.io.File;
 import java.nio.file.*;
 
 
-public class DropTargetListener extends DropTargetAdapter
-{
+public class DropTargetListener extends DropTargetAdapter {
+
     private SoundButton _soundButton;
     private String _fileFullPath;
 
-    DropTargetListener(SoundButton soundButton)
-    {
+    DropTargetListener(SoundButton soundButton) {
+
         this._soundButton = soundButton;
         new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
 
         this._fileFullPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
     }
 
+
     @Override
-    public void drop(DropTargetDropEvent event)
-    {
+    public void drop(DropTargetDropEvent event) {
+
         try {
+
             var fileFlavor = TransferableFile.FILE_FLAVOR;
 
-
             // Check the type of file being dragged
-            if(!event.isDataFlavorSupported(fileFlavor)) {
+            if (!event.isDataFlavorSupported(fileFlavor)) {
                 event.rejectDrop();
                 return;
             }
+
             event.acceptDrop(DnDConstants.ACTION_COPY);
 
-
             // Configure soundbutton
-            if(this._soundButton.getTrack() == null) {
+            if (this._soundButton.getTrack() == null) {
                 this._soundButton.setTrack(this._fileFullPath);
             }
 
@@ -50,8 +51,8 @@ public class DropTargetListener extends DropTargetAdapter
             var opt = StandardCopyOption.REPLACE_EXISTING;
             Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
             event.dropComplete(true);
-        }
-        catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             event.rejectDrop();
         }

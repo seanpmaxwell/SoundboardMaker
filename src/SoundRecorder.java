@@ -9,20 +9,20 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class SoundRecorder extends Thread
-{
+public class SoundRecorder extends Thread {
+
     private TargetDataLine _targetDataLine;
 
     // AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
     private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 8, 2, true, true);
 
     @Override
-    public void run()
-    {
+    public void run() {
+
         try {
             var dataLineInfo = new DataLine.Info(TargetDataLine.class, AUDIO_FORMAT);
 
-            if(!AudioSystem.isLineSupported(dataLineInfo)) {
+            if (!AudioSystem.isLineSupported(dataLineInfo)) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
@@ -36,14 +36,13 @@ public class SoundRecorder extends Thread
 
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, waveFile);
             audioInputStream.close();
-        }
-        catch(LineUnavailableException | IOException ex) {
+
+        } catch(LineUnavailableException | IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    void stopRecording()
-    {
+    void stopRecording() {
         this._targetDataLine.stop();
         this._targetDataLine.close();
     }

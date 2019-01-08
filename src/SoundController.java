@@ -13,8 +13,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener
-{
+public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener {
+
     // Define buttons
     private JButton _loadSoundBtn;
     private JButton _playSoundBtn;
@@ -37,8 +37,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private boolean _isPausing;
 
 
-    SoundController(SoundboardInner sboardInner)
-    {
+    SoundController(SoundboardInner sboardInner) {
+
         super.setBackground(Color.WHITE);
         this._sboardInner = sboardInner;
 
@@ -63,8 +63,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     //                                           Initialize Sound Controller
     // ************************************************************************************************************** //
 
-    private void _initSoundCtlrBtns()
-    {
+    private void _initSoundCtlrBtns() {
+
         var c = this.getClass();
 
         var loadIcon = new ImageIcon(c.getResource("load.png"));
@@ -89,8 +89,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         this._currSoundBtn.addActionListener(this);
     }
 
-    private void _initLayout()
-    {
+    private void _initLayout() {
+
         super.setLayout(new GridBagLayout());
         var gridBag = new GridBagConstraints();
 
@@ -98,8 +98,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         this._setSoundCtlrLayout(gridBag);
     }
 
-    private void _setSoundCtlrLabelLayout(GridBagConstraints gridBag)
-    {
+    private void _setSoundCtlrLabelLayout(GridBagConstraints gridBag) {
+
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.ipady = 5;
@@ -109,8 +109,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         super.add(this._soundHeader, gridBag);
     }
 
-    private void _setSoundCtlrLayout(GridBagConstraints gridBag)
-    {
+    private void _setSoundCtlrLayout(GridBagConstraints gridBag) {
+
         gridBag.gridx = 0;
         gridBag.gridy = 1;
         gridBag.weightx = 1;
@@ -138,46 +138,39 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     // ************************************************************************************************************** //
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-        this._isPausing = false;
+    public void actionPerformed(ActionEvent actionEvent) {
 
+        this._isPausing = false;
         var src = actionEvent.getSource();
 
-        if(src == this._loadSoundBtn) {
+        if (src == this._loadSoundBtn) {
             this._loadSelectedSound();
-        }
-        else if(src == this._playSoundBtn) {
+        } else if (src == this._playSoundBtn) {
             this._audioClip.start();
-        }
-        else if(src == this._pauseSoundBtn) {
+        } else if (src == this._pauseSoundBtn) {
             this._isPausing = true;
             this._audioClip.stop();
-        }
-        else if(src == this._stopSoundBtn) {
+        } else if (src == this._stopSoundBtn) {
             this._audioClip.setFramePosition(0);
             this._audioClip.stop();
-        }
-        else if(src == this._recordSoundBtn) {
+        } else if (src == this._recordSoundBtn) {
             this._record();
-        }
-        else if(src == this._currSoundBtn) {
+        } else if (src == this._currSoundBtn) {
             var path = this._waveFile.toPath().toString();
             this._sboardInner.createSoundBtnAuto(this._waveFile.getName(), path);
         }
     }
 
-    private void _loadSelectedSound()
-    {
+    private void _loadSelectedSound() {
+
         int state = this._fileChooser.showOpenDialog(this);
 
-        if(state == JFileChooser.APPROVE_OPTION) {
+        if (state == JFileChooser.APPROVE_OPTION) {
 
-            if(this._fileChooser.getSelectedFile() == null) {
+            if (this._fileChooser.getSelectedFile() == null) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Wrong File Type");
                 throw new RuntimeException("No file");
-            }
-            else {
+            } else {
                 this._waveFile = this._fileChooser.getSelectedFile();
                 this._soundHeader.setText("Clip: " + this._waveFile.getName());
                 this._loadSoundFile();
@@ -185,16 +178,15 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         }
     }
 
-    private void _record()
-    {
-        if(!this._isRecording) {
+    private void _record() {
+
+        if (!this._isRecording) {
             this._soundRecorder = new SoundRecorder();
             this._isRecording = true;
             this._recordSoundBtn.setText("Stop Recording");
             this._audioClip = null;
             this._soundRecorder.start();
-        }
-        else {
+        } else {
             this._recordSoundBtn.setText("Start Recording");
             this._soundHeader.setText("Clip: " + Constants.DEFAULT_RECORDING_NAME);
             this._isRecording = false;
@@ -206,20 +198,20 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     }
 
     @Override
-    public void update(LineEvent lineEvent)
-    {
+    public void update(LineEvent lineEvent) {
+
         var stopEvent = LineEvent.Type.STOP;
         var isStopEvent = lineEvent.getType().equals(stopEvent);
 
-        if(isStopEvent && !this._isPausing) {
+        if (isStopEvent && !this._isPausing) {
             this._audioClip.setFramePosition(0);
         }
     }
 
     @Override
-    public void dragGestureRecognized(DragGestureEvent event)
-    {
-        if(event.getDragAction() == DnDConstants.ACTION_COPY) {
+    public void dragGestureRecognized(DragGestureEvent event) {
+
+        if (event.getDragAction() == DnDConstants.ACTION_COPY) {
             var cursor = DragSource.DefaultCopyDrop;
             var file = new TransferableFile(this._waveFile);
             event.startDrag(cursor, file);
@@ -229,8 +221,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     // *************************** Shared *************************** //
 
-    private void _loadSoundFile()
-    {
+    private void _loadSoundFile() {
+
         try {
             var fileInputStream = new FileInputStream(this._waveFile);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
@@ -243,8 +235,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
             fileInputStream.close();
             bufferedInputStream.close();
             audioInputStream.close();
-        }
-        catch(IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+
+        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
             System.out.println("File error:" + ex.getMessage());
         }
     }

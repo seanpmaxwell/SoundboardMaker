@@ -6,8 +6,7 @@
 
 import javax.swing.*;
 
-class Constants
-{
+class Constants {
 
     // Linux
 //    final static String DEFAULT_DIR = new JFileChooser().getFileSystemView().getDefaultDirectory() +

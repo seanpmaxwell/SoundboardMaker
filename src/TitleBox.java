@@ -9,12 +9,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class TitleBox extends JPanel implements ActionListener
-{
+public class TitleBox extends JPanel implements ActionListener {
+
     private JButton _titleBtn;
 
-    TitleBox()
-    {
+    TitleBox() {
+
         var titleImg = this.getClass().getResource("title.png");
         var titleIcon = new ImageIcon(titleImg);
 
@@ -28,15 +28,14 @@ public class TitleBox extends JPanel implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-        if(actionEvent.getSource() == this._titleBtn) {
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (actionEvent.getSource() == this._titleBtn) {
             new JOptionPane().showMessageDialog(this, this._getInfo());
         }
     }
 
-    private String _getInfo()
-    {
+    private String _getInfo() {
+
         return "**INSTRUCTIONS**\n" +
 
                 "\nGetting Started: \n" +
