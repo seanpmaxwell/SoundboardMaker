@@ -88,7 +88,6 @@ class ControllerSide extends JPanel implements ActionListener {
         class ProjectCtlrPanel extends JPanel {
             ProjectCtlrPanel() {
                 super.setLayout(new GridLayout(2,3));
-
                 super.add(_loadProjectBtn);
                 super.add(_saveProjectBtn);
                 super.add(_newProjectBtn);
