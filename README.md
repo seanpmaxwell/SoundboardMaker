@@ -15,7 +15,7 @@ I did not want it to die and I also wanted to play with Java 11, so I decided to
 Please star this repo if actually find this project useful. 
 
 
-![alt text](Images/mainSS.png)
+![alt text](res/mainSS.png)
 
 <br>
 
@@ -95,7 +95,7 @@ click and hold the "Current Sound" button, then drag-and-drop the cursor onto th
 currently stored sound. When you click the sound-button, it should now play that sound. You can press enter to stop the
 sound from playing.
 
-![alt text](Images/addSound.gif)
+![alt text](res/addSound.gif)
 
 <br>
 

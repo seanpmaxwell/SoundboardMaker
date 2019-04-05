@@ -10,39 +10,47 @@ import javax.swing.JButton;
 
 public class SoundButton extends JButton implements Comparable<SoundButton>, Serializable {
 
-    private String _soundLabel;
-    private String _projectTitle;
-    private String _track;
+    private String soundLabel;
+    private String projectTitle;
+    private String track;
+
 
     SoundButton(String soundLabel) {
         super(soundLabel);
         this.setSoundLabel(soundLabel);
     }
 
+
     String getSoundLabel() {
-        return this._soundLabel;
+        return this.soundLabel;
     }
+
 
     String getProjectTitle() {
-        return this._projectTitle;
+        return this.projectTitle;
     }
+
 
     String getTrack() {
-        return this._track;
+        return this.track;
     }
+
 
     void setSoundLabel(String soundLabel) {
-        this._soundLabel = soundLabel;
+        this.soundLabel = soundLabel;
     }
 
+
     void setProjectTitle(String projectTitle) {
-        this._projectTitle = projectTitle;
+        this.projectTitle = projectTitle;
     }
+
 
     // track is a string representing a file path
     void setTrack(String track) {
-        this._track = track;
+        this.track = track;
     }
+
 
     public int compareTo(SoundButton otherBtn) {
 

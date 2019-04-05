@@ -11,15 +11,16 @@ import java.nio.file.*;
 
 public class DropTargetListener extends DropTargetAdapter {
 
-    private SoundButton _soundButton;
-    private String _fileFullPath;
+    private SoundButton soundButton;
+    private String fileFullPath;
+
 
     DropTargetListener(SoundButton soundButton) {
 
-        this._soundButton = soundButton;
-        new DropTarget(this._soundButton, DnDConstants.ACTION_COPY, this, true, null);
+        this.soundButton = soundButton;
+        new DropTarget(this.soundButton, DnDConstants.ACTION_COPY, this, true, null);
 
-        this._fileFullPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
+        this.fileFullPath = Constants.SOUNDS_DIR + "/" + soundButton.getSoundLabel() + ".wav";
     }
 
 
@@ -39,14 +40,14 @@ public class DropTargetListener extends DropTargetAdapter {
             event.acceptDrop(DnDConstants.ACTION_COPY);
 
             // Configure soundbutton
-            if (this._soundButton.getTrack() == null) {
-                this._soundButton.setTrack(this._fileFullPath);
+            if (this.soundButton.getTrack() == null) {
+                this.soundButton.setTrack(this.fileFullPath);
             }
 
             // Copy file to new location
             var transferable = event.getTransferable();
             var tempClip = (File)transferable.getTransferData(fileFlavor);
-            var waveFile = new File(this._fileFullPath);
+            var waveFile = new File(this.fileFullPath);
 
             var opt = StandardCopyOption.REPLACE_EXISTING;
             Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
