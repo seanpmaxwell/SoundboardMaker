@@ -11,30 +11,33 @@ import javax.swing.*;
 
 public class TitleBox extends JPanel implements ActionListener {
 
-    private JButton _titleBtn;
+    private JButton titleBtn;
+
 
     TitleBox() {
 
         var titleImg = this.getClass().getResource("title.png");
         var titleIcon = new ImageIcon(titleImg);
 
-        this._titleBtn = new JButton(titleIcon);
-        this._titleBtn.setPreferredSize(new Dimension(525, 300));
-        this._titleBtn.addActionListener(this);
+        this.titleBtn = new JButton(titleIcon);
+        this.titleBtn.setPreferredSize(new Dimension(525, 300));
+        this.titleBtn.addActionListener(this);
 
         super.setBackground(Color.WHITE);
         super.setLayout(new FlowLayout());
-        super.add(this._titleBtn);
+        super.add(this.titleBtn);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent.getSource() == this._titleBtn) {
-            new JOptionPane().showMessageDialog(this, this._getInfo());
+        if (actionEvent.getSource() == this.titleBtn) {
+            new JOptionPane().showMessageDialog(this, this.getInfo());
         }
     }
 
-    private String _getInfo() {
+
+    private String getInfo() {
 
         return "**INSTRUCTIONS**\n" +
 

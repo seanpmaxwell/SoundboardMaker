@@ -11,10 +11,11 @@ import java.io.IOException;
 
 public class SoundRecorder extends Thread {
 
-    private TargetDataLine _targetDataLine;
+    private TargetDataLine targetDataLine;
 
     // AudioFormat(sampleRate, sampleSize(bits), channels, signed, bigEndian)
     private static final AudioFormat AUDIO_FORMAT = new AudioFormat(16000, 8, 2, true, true);
+
 
     @Override
     public void run() {
@@ -27,11 +28,11 @@ public class SoundRecorder extends Thread {
                 System.exit(0);
             }
 
-            this._targetDataLine = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
-            this._targetDataLine.open(AUDIO_FORMAT);
-            this._targetDataLine.start();
+            this.targetDataLine = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
+            this.targetDataLine.open(AUDIO_FORMAT);
+            this.targetDataLine.start();
 
-            var audioInputStream = new AudioInputStream(this._targetDataLine);
+            var audioInputStream = new AudioInputStream(this.targetDataLine);
             var waveFile = new File(Constants.DEFAULT_RECORDING_PATH);
 
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, waveFile);
@@ -42,8 +43,9 @@ public class SoundRecorder extends Thread {
         }
     }
 
+
     void stopRecording() {
-        this._targetDataLine.stop();
-        this._targetDataLine.close();
+        this.targetDataLine.stop();
+        this.targetDataLine.close();
     }
 }
