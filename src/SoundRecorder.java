@@ -19,25 +19,19 @@ public class SoundRecorder extends Thread {
 
     @Override
     public void run() {
-
         try {
             var dataLineInfo = new DataLine.Info(TargetDataLine.class, AUDIO_FORMAT);
-
             if (!AudioSystem.isLineSupported(dataLineInfo)) {
                 System.out.println("Line not supported");
                 System.exit(0);
             }
-
             this.targetDataLine = (TargetDataLine)AudioSystem.getLine(dataLineInfo);
             this.targetDataLine.open(AUDIO_FORMAT);
             this.targetDataLine.start();
-
             var audioInputStream = new AudioInputStream(this.targetDataLine);
             var waveFile = new File(Constants.DEFAULT_RECORDING_PATH);
-
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, waveFile);
             audioInputStream.close();
-
         } catch(LineUnavailableException | IOException ex) {
             ex.printStackTrace();
         }

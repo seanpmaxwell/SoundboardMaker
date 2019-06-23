@@ -15,14 +15,11 @@ public class TitleBox extends JPanel implements ActionListener {
 
 
     TitleBox() {
-
         var titleImg = this.getClass().getResource("title.png");
         var titleIcon = new ImageIcon(titleImg);
-
         this.titleBtn = new JButton(titleIcon);
         this.titleBtn.setPreferredSize(new Dimension(525, 300));
         this.titleBtn.addActionListener(this);
-
         super.setBackground(Color.WHITE);
         super.setLayout(new FlowLayout());
         super.add(this.titleBtn);

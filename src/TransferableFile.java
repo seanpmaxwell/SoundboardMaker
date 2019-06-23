@@ -35,11 +35,9 @@ class TransferableFile implements Transferable {
 
     @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-
         if (!flavor.equals(FILE_FLAVOR)) {
             throw new UnsupportedFlavorException(flavor);
         }
-
         return this.file;
     }
 }

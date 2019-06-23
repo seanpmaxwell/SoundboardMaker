@@ -38,20 +38,15 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
 
     SoundController(SoundboardInner sboardInner) {
-
         super.setBackground(Color.WHITE);
         this.sboardInner = sboardInner;
-
         this.initSoundCtlrBtns();
         this.initLayout();
-
         this.fileChooser = new JFileChooser();
         var defaultDir = new File(Constants.DEFAULT_RECORDING_PATH);
         this.fileChooser.setCurrentDirectory(defaultDir);
-
         var extensionFilter = new FileNameExtensionFilter("Sound File", new String[] {"wav"});
         this.fileChooser.setFileFilter(extensionFilter);
-
         var dragSrc = new DragSource();
         var copyAction = DnDConstants.ACTION_COPY;
         dragSrc.createDefaultDragGestureRecognizer(this.currSoundBtn, copyAction, this);
@@ -63,23 +58,19 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     // ************************************************************************************************************** //
 
     private void initSoundCtlrBtns() {
-
         var c = this.getClass();
-
         var loadIcon = new ImageIcon(c.getResource("load.png"));
         var playIcon = new ImageIcon(c.getResource("play.png"));
         var pauseIcon = new ImageIcon(c.getResource("pause.png"));
         var stopIcon = new ImageIcon(c.getResource("stop.png"));
         var recordIcon = new ImageIcon(c.getResource("record.png"));
         var noteIcon = new ImageIcon(c.getResource("note.png"));
-
         this.loadSoundBtn = new JButton("Load Sound", loadIcon);
         this.playSoundBtn = new JButton("Play", playIcon);
         this.pauseSoundBtn = new JButton("Pause", pauseIcon);
         this.stopSoundBtn = new JButton("Stop", stopIcon);
         this.recordSoundBtn = new JButton("Start Recording", recordIcon);
         this.currSoundBtn = new JButton("Current Sound", noteIcon);
-
         this.loadSoundBtn.addActionListener(this);
         this.playSoundBtn.addActionListener(this);
         this.pauseSoundBtn.addActionListener(this);
@@ -90,34 +81,28 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
 
     private void initLayout() {
-
         super.setLayout(new GridBagLayout());
         var gridBag = new GridBagConstraints();
-
         this.setSoundCtlrLabelLayout(gridBag);
         this.setSoundCtlrLayout(gridBag);
     }
 
 
     private void setSoundCtlrLabelLayout(GridBagConstraints gridBag) {
-
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.ipady = 5;
         gridBag.anchor = GridBagConstraints.NORTH;
-
         this.soundHeader = new JLabel("Current Sound:");
         super.add(this.soundHeader, gridBag);
     }
 
 
     private void setSoundCtlrLayout(GridBagConstraints gridBag) {
-
         gridBag.gridx = 0;
         gridBag.gridy = 1;
         gridBag.weightx = 1;
         gridBag.fill = GridBagConstraints.HORIZONTAL;
-
         class SoundCtlrPanel extends JPanel {
             SoundCtlrPanel() {
                 super.setLayout(new GridLayout(2,3));
@@ -140,10 +125,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-
         this.isPausing = false;
         var src = actionEvent.getSource();
-
         if (src == this.loadSoundBtn) {
             this.loadSelectedSound();
         } else if (src == this.playSoundBtn) {
@@ -164,11 +147,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
 
     private void loadSelectedSound() {
-
         int state = this.fileChooser.showOpenDialog(this);
-
         if (state == JFileChooser.APPROVE_OPTION) {
-
             if (this.fileChooser.getSelectedFile() == null) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Wrong File Type");
                 throw new RuntimeException("No file");
@@ -182,7 +162,6 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
 
     private void record() {
-
         if (!this.isRecording) {
             this.soundRecorder = new SoundRecorder();
             this.isRecording = true;
@@ -203,10 +182,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     @Override
     public void update(LineEvent lineEvent) {
-
         var stopEvent = LineEvent.Type.STOP;
         var isStopEvent = lineEvent.getType().equals(stopEvent);
-
         if (isStopEvent && !this.isPausing) {
             this.audioClip.setFramePosition(0);
         }
@@ -215,7 +192,6 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     @Override
     public void dragGestureRecognized(DragGestureEvent event) {
-
         if (event.getDragAction() == DnDConstants.ACTION_COPY) {
             var cursor = DragSource.DefaultCopyDrop;
             var file = new TransferableFile(this.waveFile);
@@ -227,20 +203,16 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     // *************************** Shared *************************** //
 
     private void loadSoundFile() {
-
         try {
             var fileInputStream = new FileInputStream(this.waveFile);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-
             this.audioClip = AudioSystem.getClip();
             this.audioClip.open(audioInputStream);
             this.audioClip.addLineListener(this);
-
             fileInputStream.close();
             bufferedInputStream.close();
             audioInputStream.close();
-
         } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
             System.out.println("File error:" + ex.getMessage());
         }
