@@ -53,11 +53,9 @@ public class SoundButton extends JButton implements Comparable<SoundButton>, Ser
 
 
     public int compareTo(SoundButton otherBtn) {
-
         if (otherBtn == null) {
             return -1;
         }
-
         var otherLabel = otherBtn.getSoundLabel();
         return getSoundLabel().compareTo(otherLabel);
     }
