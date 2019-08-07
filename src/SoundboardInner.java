@@ -42,7 +42,8 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     // Rename Button
     private final static String RENAME_BTN_MSG = "Enter Label for this Button";
     private final static String RENAME_BTN_LABEL = "New Button Label";
-    private final static String NAME_FORMAT_ERR = "Name can only have letters and numbers and cannot be length 0";
+    private final static String NAME_FORMAT_ERR = "Name can only have letters and numbers and " +
+        "cannot be length 0";
 
 
     // **************************************************************************************************** //

@@ -58,25 +58,32 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     // ************************************************************************************************************** //
 
     private void initSoundCtlrBtns() {
-        var c = this.getClass();
-        var loadIcon = new ImageIcon(c.getResource("load.png"));
-        var playIcon = new ImageIcon(c.getResource("play.png"));
-        var pauseIcon = new ImageIcon(c.getResource("pause.png"));
-        var stopIcon = new ImageIcon(c.getResource("stop.png"));
-        var recordIcon = new ImageIcon(c.getResource("record.png"));
-        var noteIcon = new ImageIcon(c.getResource("note.png"));
+        // Init Image Icons
+        ImageIcon loadIcon = this.getImgIcon("load.png");
+        ImageIcon playIcon = this.getImgIcon("play.png");
+        ImageIcon pauseIcon = this.getImgIcon("pause.png");
+        ImageIcon stopIcon = this.getImgIcon("stop.png");
+        ImageIcon recordIcon = this.getImgIcon("record.png");
+        ImageIcon noteIcon = this.getImgIcon("note.png");
+        // Init Btns
         this.loadSoundBtn = new JButton("Load Sound", loadIcon);
         this.playSoundBtn = new JButton("Play", playIcon);
         this.pauseSoundBtn = new JButton("Pause", pauseIcon);
         this.stopSoundBtn = new JButton("Stop", stopIcon);
         this.recordSoundBtn = new JButton("Start Recording", recordIcon);
         this.currSoundBtn = new JButton("Current Sound", noteIcon);
+        // Init Action listeners
         this.loadSoundBtn.addActionListener(this);
         this.playSoundBtn.addActionListener(this);
         this.pauseSoundBtn.addActionListener(this);
         this.stopSoundBtn.addActionListener(this);
         this.recordSoundBtn.addActionListener(this);
         this.currSoundBtn.addActionListener(this);
+    }
+
+
+    private ImageIcon getImgIcon(String name) {
+        return new ImageIcon(this.getClass().getResource("res/" + name));
     }
 
 

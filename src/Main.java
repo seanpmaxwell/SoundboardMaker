@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.io.File;
 
 
-class Main extends JFrame {
+class Main extends JFrame { // pick up here, make a new java project with vscode
 
 
     void start() {
