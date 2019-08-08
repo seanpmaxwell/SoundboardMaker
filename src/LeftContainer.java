@@ -1,18 +1,28 @@
 /**
- * Starter file for the SoundBoard Maker project.
+ * Wrapper for the left side of the GUI which contains controls for creating new projects and 
+ * sounds.
  *
  * created Nov 6, 2018
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
-class ControllerSide extends JPanel implements ActionListener {
+class LeftContainer extends JPanel implements ActionListener {
 
-    private SoundboardInner sboardInner;
-    private SoundboardSide sboardSide;
+    private RightOuterContainer rightOuterContainer;
+    private RightInnerContainer rightInnerContainer;
 
     private JButton loadProjectBtn;
     private JButton saveProjectBtn;
@@ -21,20 +31,21 @@ class ControllerSide extends JPanel implements ActionListener {
     private JButton sortBtn;
     private JButton renameProjectBtn;
 
+    private static final long serialVersionUID = 1L;
 
-    ControllerSide(SoundboardSide sboardOuter, SoundboardInner sboardInner) {
-        this.sboardSide = sboardOuter;
-        this.sboardInner = sboardInner;
-        super.setLayout(new GridBagLayout());
-        super.setBackground(Color.WHITE);
+
+    LeftContainer(RightOuterContainer rightOuterContainer, 
+        RightInnerContainer rightInnerContainer) {
+        this.rightOuterContainer = rightOuterContainer;
+        this.rightInnerContainer = rightInnerContainer;
         this.initProjectCtlrBtns();
         this.initLayout();
     }
 
 
-    // **************************************************************************************************** //
-    //                                          Initialize Controller
-    // **************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                                 Initialize Controller
+    // ***************************************************************************************** //
 
     private void initProjectCtlrBtns() {
         // Init Image Icons
@@ -62,8 +73,9 @@ class ControllerSide extends JPanel implements ActionListener {
 
 
     private void initLayout() {
+        super.setLayout(new GridBagLayout());
+        super.setBackground(Color.WHITE);
         var gridBag = new GridBagConstraints();
-        var c = this.getClass();
         // Project Control Label
         gridBag.gridx = 0;
         gridBag.gridy = 0;
@@ -74,17 +86,6 @@ class ControllerSide extends JPanel implements ActionListener {
         gridBag.gridx = 0;
         gridBag.gridy = 1;
         gridBag.weightx = 1;
-        class ProjectCtlrPanel extends JPanel {
-            ProjectCtlrPanel() {
-                super.setLayout(new GridLayout(2,3));
-                super.add(loadProjectBtn);
-                super.add(saveProjectBtn);
-                super.add(newProjectBtn);
-                super.add(newSoundBtn);
-                super.add(sortBtn);
-                super.add(renameProjectBtn);
-            }
-        }
         super.add(new ProjectCtlrPanel(), gridBag);
         var sep = new JLabel();
         gridBag.gridx = 0;
@@ -103,7 +104,7 @@ class ControllerSide extends JPanel implements ActionListener {
         gridBag.gridx = 0;
         gridBag.gridy = 4;
         gridBag.weightx = 1;
-        super.add(new SoundController(this.sboardInner), gridBag);
+        super.add(new SoundController(this.rightInnerContainer), gridBag);
         //  Title Box Container
         gridBag.gridx = 0;
         gridBag.gridy = 5;
@@ -112,35 +113,52 @@ class ControllerSide extends JPanel implements ActionListener {
         super.add(titleBox, gridBag);
     }
 
+    private class ProjectCtlrPanel extends JPanel {
 
-    private ImageIcon getImgIcon(String name) {
-        return new ImageIcon(this.getClass().getResource("res/" + name));
+        ProjectCtlrPanel() {
+            super.setLayout(new GridLayout(2,3));
+            super.add(loadProjectBtn);
+            super.add(saveProjectBtn);
+            super.add(newProjectBtn);
+            super.add(newSoundBtn);
+            super.add(sortBtn);
+            super.add(renameProjectBtn);
+        }
     }
 
 
-    // **************************************************************************************************** //
-    //                                        Listen for Button Events
-    // **************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                                 Listen for Button Events
+    // ***************************************************************************************** //
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        var src = e.getSource();
+    public void actionPerformed(ActionEvent event) {
+        Object src = event.getSource();
         if (src == this.sortBtn) {
-            this.sboardInner.sort();
+            this.rightInnerContainer.sort();
         } else if (src == this.newSoundBtn) {
-            this.sboardInner.newSound();
+            this.rightInnerContainer.newSound();
         } else if (src == this.saveProjectBtn) {
-            this.sboardInner.saveProject();
-            this.sboardSide.setProjectTitle();
+            this.rightInnerContainer.saveProject();
+            this.rightOuterContainer.setProjectTitle();
         } else if (src == this.loadProjectBtn) {
-            this.sboardInner.loadProject();
-            this.sboardSide.setProjectTitle();
+            this.rightInnerContainer.loadProject();
+            this.rightOuterContainer.setProjectTitle();
         } else if (src == this.newProjectBtn) {
-            this.sboardInner.createNewProject();
-            this.sboardSide.setProjectTitle();
+            this.rightInnerContainer.createNewProject();
+            this.rightOuterContainer.setProjectTitle();
         } else if (src == this.renameProjectBtn) {
-            this.sboardInner.renameProject();
-            this.sboardSide.setProjectTitle();
+            this.rightInnerContainer.renameProject();
+            this.rightOuterContainer.setProjectTitle();
         }
+    }
+
+
+    // ***************************************************************************************** //
+    //                                      Helpers
+    // ***************************************************************************************** //
+
+    private ImageIcon getImgIcon(String name) {
+        return new ImageIcon(this.getClass().getResource("res/" + name));
     }
 }

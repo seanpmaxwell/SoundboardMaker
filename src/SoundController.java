@@ -4,16 +4,42 @@
  * created Nov 6, 2018
  */
 
-import java.awt.*;
-import java.awt.dnd.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.sound.sampled.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragSource;
+import java.awt.Cursor;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JFileChooser;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-public class SoundController extends JPanel implements ActionListener, LineListener, DragGestureListener {
+public class SoundController extends JPanel implements ActionListener, LineListener,
+    DragGestureListener {
 
     // Define buttons
     private JButton loadSoundBtn;
@@ -25,7 +51,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     // Appearance Settings
     private SoundRecorder soundRecorder;
-    private SoundboardInner sboardInner;
+    private RightInnerContainer rightInnerContainer;
     private JLabel soundHeader;
 
     // Opening and Playing Sound File
@@ -36,26 +62,24 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private boolean isRecording;
     private boolean isPausing;
 
+    private static final long serialVersionUID = 1L;
 
-    SoundController(SoundboardInner sboardInner) {
-        super.setBackground(Color.WHITE);
-        this.sboardInner = sboardInner;
+
+    SoundController(RightInnerContainer rightInnerContainer) {
+        this.rightInnerContainer = rightInnerContainer;
         this.initSoundCtlrBtns();
         this.initLayout();
+        super.setBackground(Color.WHITE);
         this.fileChooser = new JFileChooser();
         var defaultDir = new File(Constants.DEFAULT_RECORDING_PATH);
         this.fileChooser.setCurrentDirectory(defaultDir);
         var extensionFilter = new FileNameExtensionFilter("Sound File", new String[] {"wav"});
         this.fileChooser.setFileFilter(extensionFilter);
         var dragSrc = new DragSource();
-        var copyAction = DnDConstants.ACTION_COPY;
+        int copyAction = DnDConstants.ACTION_COPY;
         dragSrc.createDefaultDragGestureRecognizer(this.currSoundBtn, copyAction, this);
     }
 
-
-    // ************************************************************************************************************** //
-    //                                           Initialize Sound Controller
-    // ************************************************************************************************************** //
 
     private void initSoundCtlrBtns() {
         // Init Image Icons
@@ -90,50 +114,44 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     private void initLayout() {
         super.setLayout(new GridBagLayout());
         var gridBag = new GridBagConstraints();
-        this.setSoundCtlrLabelLayout(gridBag);
-        this.setSoundCtlrLayout(gridBag);
-    }
-
-
-    private void setSoundCtlrLabelLayout(GridBagConstraints gridBag) {
+        // Sound Controller Label
         gridBag.gridx = 0;
         gridBag.gridy = 0;
         gridBag.ipady = 5;
         gridBag.anchor = GridBagConstraints.NORTH;
         this.soundHeader = new JLabel("Current Sound:");
         super.add(this.soundHeader, gridBag);
-    }
-
-
-    private void setSoundCtlrLayout(GridBagConstraints gridBag) {
+        // Sound Controller
         gridBag.gridx = 0;
         gridBag.gridy = 1;
         gridBag.weightx = 1;
         gridBag.fill = GridBagConstraints.HORIZONTAL;
-        class SoundCtlrPanel extends JPanel {
-            SoundCtlrPanel() {
-                super.setLayout(new GridLayout(2,3));
-                super.add(loadSoundBtn);
-                super.add(playSoundBtn);
-                super.add(pauseSoundBtn);
-                super.add(stopSoundBtn);
-                super.add(recordSoundBtn);
-                super.add(currSoundBtn);
-            }
-        }
-
-        super.add(new SoundCtlrPanel(), gridBag);
+        super.add(new SoundControllerPanel(), gridBag);
     }
 
 
-    // ************************************************************************************************************** //
-    //                                             Listen for Events
-    // ************************************************************************************************************** //
+    private class SoundControllerPanel extends JPanel {
+        private static final long serialVersionUID = 1L;
+        SoundControllerPanel() {
+            super.setLayout(new GridLayout(2,3));
+            super.add(loadSoundBtn);
+            super.add(playSoundBtn);
+            super.add(pauseSoundBtn);
+            super.add(stopSoundBtn);
+            super.add(recordSoundBtn);
+            super.add(currSoundBtn);
+        }
+    }
+
+
+    // ***************************************************************************************** //
+    //                                 Listen for Events
+    // ***************************************************************************************** //
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         this.isPausing = false;
-        var src = actionEvent.getSource();
+        Object src = actionEvent.getSource();
         if (src == this.loadSoundBtn) {
             this.loadSelectedSound();
         } else if (src == this.playSoundBtn) {
@@ -147,8 +165,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
         } else if (src == this.recordSoundBtn) {
             this.record();
         } else if (src == this.currSoundBtn) {
-            var path = this.waveFile.toPath().toString();
-            this.sboardInner.createSoundBtnAuto(this.waveFile.getName(), path);
+            String path = this.waveFile.toPath().toString();
+            this.rightInnerContainer.createSoundBtnAuto(this.waveFile.getName(), path);
         }
     }
 
@@ -189,8 +207,8 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     @Override
     public void update(LineEvent lineEvent) {
-        var stopEvent = LineEvent.Type.STOP;
-        var isStopEvent = lineEvent.getType().equals(stopEvent);
+        LineEvent.Type stopEvent = LineEvent.Type.STOP;
+        boolean isStopEvent = lineEvent.getType().equals(stopEvent);
         if (isStopEvent && !this.isPausing) {
             this.audioClip.setFramePosition(0);
         }
@@ -200,7 +218,7 @@ public class SoundController extends JPanel implements ActionListener, LineListe
     @Override
     public void dragGestureRecognized(DragGestureEvent event) {
         if (event.getDragAction() == DnDConstants.ACTION_COPY) {
-            var cursor = DragSource.DefaultCopyDrop;
+            Cursor cursor = DragSource.DefaultCopyDrop;
             var file = new TransferableFile(this.waveFile);
             event.startDrag(cursor, file);
         }
@@ -211,12 +229,15 @@ public class SoundController extends JPanel implements ActionListener, LineListe
 
     private void loadSoundFile() {
         try {
+            // Init streams
             var fileInputStream = new FileInputStream(this.waveFile);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+            // Loud sound file
             this.audioClip = AudioSystem.getClip();
             this.audioClip.open(audioInputStream);
             this.audioClip.addLineListener(this);
+            // Close streams
             fileInputStream.close();
             bufferedInputStream.close();
             audioInputStream.close();

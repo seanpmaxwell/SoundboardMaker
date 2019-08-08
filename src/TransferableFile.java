@@ -4,7 +4,9 @@
  * created Nov 18, 2018
  */
 
-import java.awt.datatransfer.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 
 
@@ -23,7 +25,7 @@ class TransferableFile implements Transferable {
 
     @Override
     public DataFlavor[] getTransferDataFlavors() {
-        return this.supportedFlavors;
+        return supportedFlavors;
     }
 
 

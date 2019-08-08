@@ -4,9 +4,16 @@
  * created Nov 18, 2018
  */
 
-import java.awt.dnd.*;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.datatransfer.DataFlavor;
+
 import java.io.File;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 
 public class DropTargetListener extends DropTargetAdapter {
@@ -25,7 +32,7 @@ public class DropTargetListener extends DropTargetAdapter {
     @Override
     public void drop(DropTargetDropEvent event) {
         try {
-            var fileFlavor = TransferableFile.FILE_FLAVOR;
+            DataFlavor fileFlavor = TransferableFile.FILE_FLAVOR;
             // Check the type of file being dragged
             if (!event.isDataFlavorSupported(fileFlavor)) {
                 event.rejectDrop();
@@ -37,10 +44,10 @@ public class DropTargetListener extends DropTargetAdapter {
                 this.soundButton.setTrack(this.fileFullPath);
             }
             // Copy file to new location
-            var transferable = event.getTransferable();
+            Transferable transferable = event.getTransferable();
             var tempClip = (File)transferable.getTransferData(fileFlavor);
             var waveFile = new File(this.fileFullPath);
-            var opt = StandardCopyOption.REPLACE_EXISTING;
+            StandardCopyOption opt = StandardCopyOption.REPLACE_EXISTING;
             Files.copy(tempClip.toPath(), waveFile.toPath(), opt);
             event.dropComplete(true);
         } catch (Exception e) {

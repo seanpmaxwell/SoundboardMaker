@@ -10,6 +10,8 @@ import javax.swing.JButton;
 
 public class SoundButton extends JButton implements Comparable<SoundButton>, Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String soundLabel;
     private String projectTitle;
     private String track;
@@ -56,7 +58,7 @@ public class SoundButton extends JButton implements Comparable<SoundButton>, Ser
         if (otherBtn == null) {
             return -1;
         }
-        var otherLabel = otherBtn.getSoundLabel();
+        String otherLabel = otherBtn.getSoundLabel();
         return getSoundLabel().compareTo(otherLabel);
     }
 }

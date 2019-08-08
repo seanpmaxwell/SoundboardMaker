@@ -4,7 +4,7 @@
  * created Nov 6, 2018
  */
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 
 
 class Constants {

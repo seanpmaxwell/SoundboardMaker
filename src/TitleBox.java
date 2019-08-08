@@ -4,14 +4,23 @@
  * created Nov 18, 2018
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class TitleBox extends JPanel implements ActionListener {
 
     private JButton titleBtn;
+
+    private static final long serialVersionUID = 1L;
 
 
     TitleBox() {

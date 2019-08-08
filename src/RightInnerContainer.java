@@ -4,16 +4,45 @@
  * created Nov 6, 2018
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import javax.sound.sampled.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-class SoundboardInner extends JPanel implements ActionListener, LineListener {
+class RightInnerContainer extends JPanel implements ActionListener, LineListener {
+
+    private static final long serialVersionUID = 1L;
 
     private JPopupMenu popup;
     private JMenuItem deleteSoundOpt;
@@ -28,30 +57,30 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     private Clip audioClip;
 
     // New Sound
-    private final static String NEW_SOUND_MSG = "Enter Label for this Sound";
-    private final static String NEW_SOUND_LABEL = "New Quote Label";
+    private final String NEW_SOUND_MSG = "Enter Label for this Sound";
+    private final String NEW_SOUND_LABEL = "New Quote Label";
 
     // New Project
-    private final static String NEW_PRJ_MSG = "Enter Title for this Project";
-    private final static String NEW_PRJ_LABEL = "New Project Title";
-    private final static String SAVE_PRJ_ALERT = "Must create at least one button in order to save";
+    private final String NEW_PRJ_MSG = "Enter Title for this Project";
+    private final String NEW_PRJ_LABEL = "New Project Title";
+    private final String SAVE_PRJ_ALERT = "Must create at least one button in order to save";
 
     // Rename Project
-    private final static String RENAME_PRJ_MSG = "Enter New Title for this Soundboard";
+    private final String RENAME_PRJ_MSG = "Enter New Title for this Soundboard";
 
     // Rename Button
-    private final static String RENAME_BTN_MSG = "Enter Label for this Button";
-    private final static String RENAME_BTN_LABEL = "New Button Label";
-    private final static String NAME_FORMAT_ERR = "Name can only have letters and numbers and " +
-        "cannot be length 0";
+    private final String RENAME_BTN_MSG = "Enter Label for this Button";
+    private final String RENAME_BTN_LABEL = "New Button Label";
+    private final String NAME_FORMAT_ERR = "Name can only have letters and numbers and cannot " +
+        "be length 0";
 
 
-    // **************************************************************************************************** //
-    //                                    Initialize Soundboard Inner Portion
-    // **************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                             Initialize Soundboard Inner Portion
+    // ***************************************************************************************** //
 
-    SoundboardInner() {
-        this.allSoundBtns = new ArrayList();
+    RightInnerContainer() {
+        this.allSoundBtns = new ArrayList<SoundButton>();
         super.setBackground(Color.WHITE);
         super.setLayout(new WrapLayout());
         this.initBtnPopup();
@@ -71,22 +100,24 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
 
     private void setKeyBindings() {
-        var keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
         super.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "stop sound");
-        class KeyBinding extends AbstractAction {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                audioClip.close();
-            }
-        }
         super.getActionMap().put("stop sound", new KeyBinding());
     }
 
 
+    private class KeyBinding extends AbstractAction {
+        private static final long serialVersionUID = 1L;
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            audioClip.close();
+        }
+    }
 
-    // ************************************************************************************************************** //
-    //                                            Soundboard Button Actions
-    // ************************************************************************************************************* //
+
+    // ***************************************************************************************** //
+    //                               Soundboard Button Actions
+    // ***************************************************************************************** //
 
     void sort() {
         Collections.sort(this.allSoundBtns);
@@ -96,8 +127,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
 
     void newSound() {
-        var msg = JOptionPane.PLAIN_MESSAGE;
-        var label = JOptionPane.showInputDialog(null, this.NEW_SOUND_MSG, this.NEW_SOUND_LABEL, msg);
+        int msg = JOptionPane.PLAIN_MESSAGE;
+        String label = JOptionPane.showInputDialog(null, this.NEW_SOUND_MSG, this.NEW_SOUND_LABEL, 
+            msg);
         if (this.checkName(label)) {
             this.createSoundBtn(label);
             super.repaint();
@@ -120,19 +152,19 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     }
 
 
-    // Don't use a buffered output stream here, it was causing errors
     private void saveProjectFile() {
         try {
             if (this.fileChooser.getSelectedFile() == null) {
                 JOptionPane.showMessageDialog(null, "Wrong File Type");
                 throw new RuntimeException("No file");
             }
-            var filePath = this.fileChooser.getSelectedFile();
+            File filePath = this.fileChooser.getSelectedFile();
             this.projectTitle = filePath.getName();
-            var fileNameWithExt = filePath + ".sdb";
+            String fileNameWithExt = filePath + ".sdb";
             var fileOutputStream = new FileOutputStream(fileNameWithExt);
             var objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(this.getProjectCopy());
+            objectOutputStream.close();
         } catch (IOException ex) {
             System.out.println("File error:" + ex.getMessage());
         }
@@ -142,7 +174,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     private ArrayList<SoundButton> getProjectCopy() {
         var buttonsToSave = new ArrayList<SoundButton>();
         SoundButton btnTo;
-        for(SoundButton btnFrom: this.allSoundBtns) {
+        for (SoundButton btnFrom: this.allSoundBtns) {
             btnTo = new SoundButton(btnFrom.getSoundLabel());
             btnTo.setTrack(btnFrom.getTrack());
             btnTo.setProjectTitle(btnFrom.getProjectTitle());
@@ -172,12 +204,13 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
     private void openProjectFile() {
         try {
-            var file = this.fileChooser.getSelectedFile();
+            File file = this.fileChooser.getSelectedFile();
             var fileInputStream = new FileInputStream(file);
             var bufferedInputStream = new BufferedInputStream(fileInputStream);
             var objectInputStream = new ObjectInputStream(bufferedInputStream);
-            var instance = (ArrayList<SoundButton>)objectInputStream.readObject();
-            this.allSoundBtns = instance;
+            Object instance = objectInputStream.readObject();
+            this.allSoundBtns = (ArrayList<SoundButton>)instance;
+            objectInputStream.close();
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("File error:" + ex.getMessage());
         }
@@ -185,8 +218,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
 
     void createNewProject() {
-        var msg = JOptionPane.PLAIN_MESSAGE;
-        var label = JOptionPane.showInputDialog(null, this.NEW_PRJ_MSG, this.NEW_PRJ_LABEL, msg);
+        int msg = JOptionPane.PLAIN_MESSAGE;
+        String label = JOptionPane.showInputDialog(null,
+            this.NEW_PRJ_MSG, this.NEW_PRJ_LABEL, msg);
         if (this.checkName(label)) {
             this.projectTitle = label;
             this.allSoundBtns.clear();
@@ -198,8 +232,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
 
     void renameProject() {
-        var msg = JOptionPane.PLAIN_MESSAGE;
-        var label = JOptionPane.showInputDialog(null, this.RENAME_PRJ_MSG, this.NEW_PRJ_LABEL, msg);
+        int msg = JOptionPane.PLAIN_MESSAGE;
+        String label = JOptionPane.showInputDialog(null,
+            this.RENAME_PRJ_MSG, this.NEW_PRJ_LABEL, msg);
         if (this.checkName(label)) {
             this.projectTitle = label;
             for (SoundButton button: this.allSoundBtns) {
@@ -226,7 +261,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
     private void addAllBtns() {
         for (SoundButton btn: this.allSoundBtns) {
-            var listener = new _PopupListener();
+            var listener = new PopupListener();
             btn.addActionListener(this);
             btn.addMouseListener(listener);
             super.add(btn);
@@ -246,14 +281,14 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
         this.currSoundBtn = new SoundButton(label);
         this.currSoundBtn.setProjectTitle(this.projectTitle);
         this.currSoundBtn.addActionListener(this);
-        this.currSoundBtn.addMouseListener(new _PopupListener());
+        this.currSoundBtn.addMouseListener(new PopupListener());
         this.allSoundBtns.add(this.currSoundBtn);
         super.add(this.currSoundBtn);
         new DropTargetListener(this.currSoundBtn);
     }
 
 
-    private class _PopupListener extends MouseAdapter {
+    private class PopupListener extends MouseAdapter {
         public void mousePressed(MouseEvent e) { maybeShowPopup(e); }
         public void mouseReleased(MouseEvent e) { maybeShowPopup(e); }
         private void maybeShowPopup(MouseEvent event) {
@@ -265,13 +300,13 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     }
 
 
-    // ************************************************************************************************************** //
-    //                                            Sound Button Actions
-    // ************************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                                    Sound Button Actions
+    // ***************************************************************************************** //
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        var src = actionEvent.getSource();
+        Object src = actionEvent.getSource();
         if (src instanceof SoundButton) {
             this.playSound((SoundButton)src);
         } else if (src == this.deleteSoundOpt) {
@@ -287,7 +322,7 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
             this.audioClip.close();
         }
         this.currSoundBtn = soundButton;
-        var track = soundButton.getTrack();
+        String track = soundButton.getTrack();
         if (track != null) {
             this.openSoundFile(track);
         }
@@ -321,8 +356,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
 
 
     private void renameSoundBtn() {
-        var msg = JOptionPane.PLAIN_MESSAGE;
-        var label = JOptionPane.showInputDialog(null, this.RENAME_BTN_MSG, this.RENAME_BTN_LABEL, msg);
+        int msg = JOptionPane.PLAIN_MESSAGE;
+        String label = JOptionPane.showInputDialog(null, this.RENAME_BTN_MSG,
+            this.RENAME_BTN_LABEL, msg);
         if (this.checkName(label)) {
             this.currSoundBtn.setSoundLabel(label);
             this.currSoundBtn.setText(label);
@@ -330,13 +366,13 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     }
 
 
-    // ************************************************************************************************************** //
-    //                                                  Events
-    // ************************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                                        Events
+    // ***************************************************************************************** //
 
     @Override
     public void update(LineEvent lineEvent) {
-        var stopType = LineEvent.Type.STOP;
+        LineEvent.Type stopType = LineEvent.Type.STOP;
         if(lineEvent.getType().equals(stopType)) {
             this.audioClip.close();
             this.audioClip = null;
@@ -344,9 +380,9 @@ class SoundboardInner extends JPanel implements ActionListener, LineListener {
     }
 
 
-    // ************************************************************************************************************** //
-    //                                          Shared Multiple Sections
-    // ************************************************************************************************************** //
+    // ***************************************************************************************** //
+    //                                 Shared Multiple Sections
+    // ***************************************************************************************** //
 
     private boolean checkName(String label) {
         if (!label.matches("^[a-zA-Z0-9_ ]+$")) {
