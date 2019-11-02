@@ -144,8 +144,10 @@ the file extension _.sdb_ appended to the end of it.
 If you've saved a project then started a new project or closed the program, you can reopen a saved project. Click "Load 
 Project" and select your previously saved project.
 
+<br>
 
-## <a name="compiling-source-files"></a> Compiling
+
+## <a name="compiling-source-files"></a> Compiling Source Files
 - Compile src files: `javac -d bin/ src/*.java`
 - Create jar file: `jar cvfe SimplePaint.jar Main -C bin .`
 - Run the jar file: `java -jar SimplePaint.jar`
