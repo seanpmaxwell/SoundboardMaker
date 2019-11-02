@@ -34,6 +34,7 @@ Please star this repo if actually find this project useful.
 * [Record a Sound](#record-sound)
 * [Save Project](#save-project)
 * [Load Project](#load-project)
+* [Compiling Source Files](#compiling-source-files)
 
 <br>
 
@@ -141,4 +142,10 @@ the file extension _.sdb_ appended to the end of it.
 ## <a name="load-project"></a> Load Project
 
 If you've saved a project then started a new project or closed the program, you can reopen a saved project. Click "Load 
-Project" and select your previously saved project. 
+Project" and select your previously saved project.
+
+
+## <a name="compiling-source-files"></a> Compiling
+- Compile src files: `javac -d bin/ src/*.java`
+- Create jar file: `jar cvfe SimplePaint.jar Main -C bin .`
+- Run the jar file: `java -jar SimplePaint.jar`
