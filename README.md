@@ -149,5 +149,5 @@ Project" and select your previously saved project.
 
 ## <a name="compiling-source-files"></a> Compiling Source Files
 - Compile src files: `javac -d bin/ src/*.java`
-- Create jar file: `jar cvfe SimplePaint.jar Main -C bin .`
-- Run the jar file: `java -jar SimplePaint.jar`
+- Create jar file: `jar cvfe SoundboardMaker.jar Main -C bin .`
+- Run the jar file: `java -jar SoundboardMaker.jar`
